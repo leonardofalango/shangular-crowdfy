@@ -1,0 +1,24 @@
+.logo {
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1.9rem;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+}
+
+.icon {
+    width: 7rem;
+    height: 2.5rem;
+    
+    background-size: contain;
+    background-image: url("../../assets/images/logo.png");
+    /* background: url("../../assets/images/logo.png"); */
+    
+}
+
+a {
+    padding: 0;
+    margin: 0;
+}

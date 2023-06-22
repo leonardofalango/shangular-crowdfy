@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--primary-colorh4);
+}
+
+:root {
+    --background-color: #1F1F1F;
+    --primary-colorh1: #D33384;
+    --primary-colorh2: #DE72A9;
+    --primary-colorh3: #E9B2CE;
+    --primary-colorh4: #F5F2F3;
+    --blue-colorh1: #004F94;
+    --blue-colorh2: #005CAD;
+    --blue-colorh3: #0063BA;
+    --blue-colorh4: #007BE5;
+    --blue-colorh5: #0085FA;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

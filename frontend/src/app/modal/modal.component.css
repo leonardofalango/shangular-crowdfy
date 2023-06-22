@@ -1,0 +1,15 @@
+.new-post {
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+    padding: 15px;
+    border-radius: 50%;
+    border: 1px solid var(--background-color);
+    transition: all .3s;
+}
+
+.new-post:hover {
+    color: var(--primary-colorh1);
+    background-color:var(--background-color);
+    border: 1px solid var(--primary-colorh4);
+}
