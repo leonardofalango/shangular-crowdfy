@@ -88,4 +88,11 @@ public class PostsController : ControllerBase
 
         return Ok();
     }
+
+    [Route("page/{page}")]
+    public IEnumerable<CompletePost> GetPage(int page)
+        => getOrderedFullJoin()
+            .Skip(page * 10)
+            .Take(10);
+    
 }

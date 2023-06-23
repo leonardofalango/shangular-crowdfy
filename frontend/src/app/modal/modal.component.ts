@@ -13,7 +13,7 @@ export class ModalComponent {
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
     this.dialog.open(InnerModalComponent, {
-    width: '250px',
+    width: '40%',
     enterAnimationDuration,
     exitAnimationDuration,
     });

@@ -9,7 +9,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatInputModule } from '@angular/material/input';
-
+import { MatListModule } from '@angular/material/list';
 /* FROM ANGULAR MATERIAL */
 
 
@@ -26,7 +26,8 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     MatFormFieldModule,
     MatBadgeModule,
-    MatInputModule
+    MatInputModule,
+    MatListModule
   ],
   exports: [RouterModule]
 })

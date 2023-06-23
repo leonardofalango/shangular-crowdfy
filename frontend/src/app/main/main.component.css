@@ -1,0 +1,120 @@
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=- ROOT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    padding-top: 150px;
+    padding-bottom: 300px;
+    
+    
+    background-color: #333;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 60px;
+}
+
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=- CARD -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+
+.card {
+    background-color: white;
+    width: 550px;
+    height: 400px;
+    border-radius: 25px;
+    box-shadow: 25px 25px 10px 0 rgba(255, 0, 255, 0.3);
+    padding: 50px 20px 50px 50px;
+    display: flex;
+    gap: 40px;
+}
+
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=- LEFT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+
+.card-left {
+    float: left;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* .card-top-left {
+    
+} */
+
+
+.card-title {
+    font-size: 1.23rem;
+    font-weight: 600;
+}
+
+.card-content {
+    padding-top: 15px;
+    font-size: 1.08rem;
+}
+
+.card-author {
+    position: relative;
+    font-size: 1rem;
+    color: rgba(0, 0, 0, .7);
+    bottom: 0;
+}
+
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=- RIGHT -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+
+.card-right {
+    float: right;
+    font-size: 1.2rem;
+    color: rgba(0, 0, 0, .6);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+/* =-=-=-=-=-=-=-=-=-=-=-=-=-=-=- BUTTONS -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+
+.card-buttons {
+    width: 100%;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-button {
+    width: 24px;
+    height: 24px;
+    border: 0;
+    transition: all .3s;
+}
+
+.card-button:hover {
+    transform: scale(1.1);
+}
+
+.card-comment {
+    background-size: contain;
+}
+
+
+.card-crowd {
+    background-size: contain;
+}
+
+
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100vw;
+}
+
+.side-bar {
+    width: 33%;
+    height: 100vh;
+}

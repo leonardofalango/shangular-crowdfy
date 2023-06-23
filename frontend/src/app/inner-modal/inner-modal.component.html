@@ -1,6 +1,29 @@
 <h1 mat-dialog-title>Novo Crown</h1>
 <div mat-dialog-content>
-    
+
+  <mat-form-field class="half-width">
+    <mat-label>Título</mat-label>
+    <input matInput placeholder="Insira o Título"/>
+  </mat-form-field>
+
+  <mat-form-field class="full-width">
+    <mat-label>Conteudo</mat-label>
+    <textarea matInput placeholder="Coloque o seu Crown aqui!"></textarea>
+  </mat-form-field>
+
+  <!-- !FORUM -->
+  <mat-form-field class="half-width">
+    <mat-label>Fórum</mat-label>
+
+    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{option.Title}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
 </div>
 <div mat-dialog-actions class="modal-buttons">
   <button mat-button mat-dialog-close>Cancelar</button>

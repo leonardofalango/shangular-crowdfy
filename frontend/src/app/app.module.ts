@@ -22,8 +22,10 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { InnerModalComponent } from './inner-modal/inner-modal.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { SideBarComponent } from './side-bar/side-bar.component';
+import { MatListModule } from '@angular/material/list';
 
-
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { MatIconModule } from '@angular/material/icon';
     ProgressSpinnerComponent,
     NotificationComponent,
     FooterComponent,
+    SideBarComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatBadgeModule,
     InnerModalComponent,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatListModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
