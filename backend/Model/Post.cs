@@ -28,4 +28,6 @@ public partial class Post
     public virtual Post? IdPostNavigation { get; set; }
 
     public virtual ICollection<Post> InverseIdPostNavigation { get; set; } = new List<Post>();
+
+    public virtual ICollection<User> IdUsers { get; set; } = new List<User>();
 }

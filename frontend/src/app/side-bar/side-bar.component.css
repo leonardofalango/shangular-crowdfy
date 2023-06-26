@@ -1,0 +1,43 @@
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20vw;
+    height: 100vh;
+    padding-top: 59px;
+    padding-left: 10px;
+}
+
+.ut-hr-txt {
+    color: #AAAAAA;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    text-align: center;
+}
+
+.ut-hr-txt hr {
+    background-color: #AAAAAA;
+    height: 1px;
+    margin-top: 0.7em !important;
+    margin-bottom: 0px !important;
+    width: 100%;
+}
+
+.ut-hr-txt span {
+    padding-left: 1em;
+    padding-right: 1em;
+    text-align: center;
+    position: relative;
+    top: -0.8em;
+    background-color: var(--primary-colorh4);
+}
+
+.mat-list-item-icon {
+    
+}
+
+.list-item {
+    display: flex;
+}

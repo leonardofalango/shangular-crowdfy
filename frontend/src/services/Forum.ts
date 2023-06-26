@@ -1,8 +1,8 @@
 export interface Forum
 {
-    Id : number
-    CreatedAt : Date
-    Title : string
-    Description : string
-    Photo : string
+    id : number
+    createdAt : Date
+    title : string
+    description : string
+    photo : string
 }

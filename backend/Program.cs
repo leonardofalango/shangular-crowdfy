@@ -25,6 +25,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<CrowdfyContext>(); // Shared Context
 
 builder.Services.AddTransient<PostsController>(); // Create class every req
+builder.Services.AddTransient<ForumController>(); // Create class every req
 
 var app = builder.Build();
 

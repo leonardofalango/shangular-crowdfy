@@ -20,4 +20,6 @@ public partial class User
     public int? IsAuth { get; set; }
 
     public virtual ICollection<Forum> IdForums { get; set; } = new List<Forum>();
+
+    public virtual ICollection<Post> IdPosts { get; set; } = new List<Post>();
 }

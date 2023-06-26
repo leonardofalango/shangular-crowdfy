@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CompletePost } from '../../services/Post'
 import { PostService } from 'src/services/PostService';
+import { UserService } from '../../services/UserService'
 
 @Component({
   selector: 'app-main',
@@ -13,10 +14,21 @@ export class MainComponent
 
     posts: CompletePost[] = [];
     pageNumber: number = 0;
+    userId: number = 0;
     
-    constructor(private service: PostService) { }
+    constructor(
+      private service: PostService,
+      private userService: UserService) { }
 
     ngOnInit(): void {
+      this
+        .userService
+        .getUser(
+          sessionStorage.getItem("userId")
+        ).subscribe(
+        x => this.userId = x.id
+      )
+      
       this.update(this.pageNumber);
     }
 

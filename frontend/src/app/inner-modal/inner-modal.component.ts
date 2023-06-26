@@ -40,19 +40,19 @@ export class InnerModalComponent
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const name = typeof value === 'string' ? value : value?.Title;
+        const name = typeof value === 'string' ? value : value?.title;
         return name ? this._filter(name as string) : this.options.slice();
       }),
     );
   }
 
   displayFn(user: Forum): string {
-    return user && user.Title ? user.Title : '';
+    return user && user.title ? user.title : '';
   }
 
   private _filter(name: string): Forum[] {
     const filterValue = name.toLowerCase();
 
-    return this.options.filter(option => option.Title.toLowerCase().includes(filterValue));
+    return this.options.filter(option => option.title.toLowerCase().includes(filterValue));
   }
 }

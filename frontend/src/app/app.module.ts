@@ -23,6 +23,7 @@ import { InnerModalComponent } from './inner-modal/inner-modal.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { SideBarComponent } from './side-bar/side-bar.component';
+import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 
 import { HttpClientModule } from '@angular/common/http'
@@ -55,7 +56,8 @@ import { HttpClientModule } from '@angular/common/http'
     MatInputModule,
     MatIconModule,
     MatListModule,
-    HttpClientModule
+    HttpClientModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

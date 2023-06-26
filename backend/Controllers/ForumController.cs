@@ -23,7 +23,7 @@ public class ForumController : ControllerBase
         => this.context = ctt;
 
     [HttpGet("")]
-    public IEnumerable<Forum> GetAllForum()
+    public IEnumerable<Forum> GetAllForums()
         => context.Forums.Where(e => true);
     
     [Route("add")]
@@ -37,5 +37,10 @@ public class ForumController : ControllerBase
 
         return Ok();
     }
-    
+
+    [Route("{userId}")]
+    public IEnumerable<Forum> GetAllForums(int userId) =>
+        from forum in context.Forums
+        where forum.IdUsers.Any(user => user.Id == userId)
+        select forum;
 }

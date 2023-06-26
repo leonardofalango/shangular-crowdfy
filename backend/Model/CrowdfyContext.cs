@@ -109,6 +109,23 @@ public partial class CrowdfyContext : DbContext
                         j.HasKey("IdUser", "IdForum").HasName("PK__userXfor__A8B315B394F0E6DB");
                         j.ToTable("userXforum");
                     });
+
+            entity.HasMany(d => d.IdPosts).WithMany(p => p.IdUsers)
+                .UsingEntity<Dictionary<string, object>>(
+                    "UserXlike",
+                    r => r.HasOne<Post>().WithMany()
+                        .HasForeignKey("IdPost")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__userXlike__IdPos__5DCAEF64"),
+                    l => l.HasOne<User>().WithMany()
+                        .HasForeignKey("IdUser")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__userXlike__IdUse__5CD6CB2B"),
+                    j =>
+                    {
+                        j.HasKey("IdUser", "IdPost").HasName("PK__userXlik__7844EDEC4E70EE72");
+                        j.ToTable("userXlike");
+                    });
         });
 
         OnModelCreatingPartial(modelBuilder);

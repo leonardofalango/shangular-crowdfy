@@ -11,7 +11,12 @@ export class ForumService {
 
   getAllForums()
   {
-    return this.http.get<Forum[]>("link")
+    return this.http.get<Forum[]>("http://localhost:5177/forum")
+  }
+
+  getSubscribedForums(id: string | null)
+  {
+    return this.http.get<Forum[]>("http://localhost:5177/forum/" + id)
   }
 
 }
