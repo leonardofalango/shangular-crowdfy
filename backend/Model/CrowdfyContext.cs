@@ -6,6 +6,7 @@ namespace backend.Model;
 
 public partial class CrowdfyContext : DbContext
 {
+    #pragma warning disable
     public CrowdfyContext()
     {
     }

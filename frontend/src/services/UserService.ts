@@ -10,7 +10,7 @@ export class UserService {
 
     getAllUsers()
     {
-        return this.http.get<User[]>("ENDPOINT");
+        return this.http.get<User[]>("http://localhost:5177/user/");
     }
 
     getUser(id: string | null)

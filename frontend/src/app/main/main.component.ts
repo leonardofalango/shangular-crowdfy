@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CompletePost } from '../../services/Post'
 import { PostService } from 'src/services/PostService';
 import { UserService } from '../../services/UserService'
+import { User } from 'src/services/User';
 
 @Component({
   selector: 'app-main',
@@ -14,7 +15,17 @@ export class MainComponent
 
     posts: CompletePost[] = [];
     pageNumber: number = 0;
-    userId: number = 0;
+    userId: string | null = sessionStorage.getItem('userId');
+    user: User = 
+    {
+      bornDate: new Date,
+      id: 0,
+      completeName: '',
+      username: '',
+      photo: '',
+      mail: '',
+      isAuth: 0
+    };
     
     constructor(
       private service: PostService,
@@ -26,7 +37,7 @@ export class MainComponent
         .getUser(
           sessionStorage.getItem("userId")
         ).subscribe(
-        x => this.userId = x.id
+        x => this.user = x
       )
       
       this.update(this.pageNumber);

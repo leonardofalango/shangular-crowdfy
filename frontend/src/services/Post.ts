@@ -16,13 +16,13 @@ export interface CompletePost
 
 export interface Post
 {
-    Id : number
-    Author : number
-    Title : string
-    Content : string
-    CreatedAt : Date
-    Crowds : number
-    Comments : number
-    IdPost : number
-    IdForum : number
+    id : number
+    author : number
+    title : string
+    content : string
+    createdAt : Date
+    crowds : number
+    comments : number
+    idPost : number
+    idForum : number
 }

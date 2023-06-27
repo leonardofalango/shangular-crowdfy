@@ -22,12 +22,12 @@ public class ForumController : ControllerBase
     public ForumController(CrowdfyContext ctt)
         => this.context = ctt;
 
-    [HttpGet("")]
+    [HttpGet]
     public IEnumerable<Forum> GetAllForums()
-        => context.Forums.Where(e => true);
+        => context.Forums.Take(100);
     
-    [Route("add")]
-    public ActionResult CreateForum(Forum forum)
+    [HttpPost("add")]
+    public ActionResult CreateForum([FromBody] Forum forum)
     {
         if (!ModelState.IsValid)
             return BadRequest("Invalid data.");
@@ -39,8 +39,16 @@ public class ForumController : ControllerBase
     }
 
     [Route("{userId}")]
-    public IEnumerable<Forum> GetAllForums(int userId) =>
+    public IEnumerable<Forum> GetSubscribedForums(int userId) =>
         from forum in context.Forums
         where forum.IdUsers.Any(user => user.Id == userId)
         select forum;
+    
+    [Route("name/{forumName}")]
+    public Forum? GetForumByName(string forumName)
+        => context
+            .Forums
+            .FirstOrDefault(
+                f => f.Title! == forumName
+            );
 }

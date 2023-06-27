@@ -3,12 +3,13 @@
 
   <mat-form-field class="half-width">
     <mat-label>Título</mat-label>
-    <input matInput placeholder="Insira o Título"/>
+    <input matInput placeholder="Insira o Título" [(ngModel)]="post.title"/>
   </mat-form-field>
 
   <mat-form-field class="full-width">
     <mat-label>Conteudo</mat-label>
-    <textarea matInput placeholder="Coloque o seu Crown aqui!"></textarea>
+    <textarea matInput placeholder="Coloque o seu Crown aqui!" rows="5" cols="50"
+      [(ngModel)]="post.content"></textarea>
   </mat-form-field>
 
   <!-- !FORUM -->
@@ -18,8 +19,10 @@
     <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
 
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-        {{option.title}}
+      <mat-option [(ngModel)]="selectOption"
+        *ngFor="let option of filteredOptions | async"
+        [value]="option">
+          {{option.title}}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
@@ -27,5 +30,5 @@
 </div>
 <div mat-dialog-actions class="modal-buttons">
   <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-button mat-dialog-close cdkFocusInitial>Publicar</button>
+  <button mat-button mat-dialog-close cdkFocusInitial (click)="pub()">Publicar</button>
 </div>

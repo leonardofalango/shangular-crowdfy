@@ -26,7 +26,11 @@ import { SideBarComponent } from './side-bar/side-bar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule } from '@angular/common/http';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { LoginComponent } from './login/login.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 @NgModule({
   declarations: [
@@ -42,6 +46,8 @@ import { HttpClientModule } from '@angular/common/http'
     NotificationComponent,
     FooterComponent,
     SideBarComponent,
+    SignInComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +56,8 @@ import { HttpClientModule } from '@angular/common/http'
     MatDialogModule,
     MatStepperModule,
     MatProgressSpinnerModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatFormFieldModule,
     MatBadgeModule,
     InnerModalComponent,

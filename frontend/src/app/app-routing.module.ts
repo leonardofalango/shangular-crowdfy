@@ -10,11 +10,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { LoginComponent } from './login/login.component';
 /* FROM ANGULAR MATERIAL */
 
+sessionStorage.setItem("userId", '2');
 
 const routes: Routes = [
-  {path: "", component: MainComponent}
+  {path: "", component: MainComponent},
+  {path: "login", component: LoginComponent},
+  {path: "signIn", component: SignInComponent}
 ];
 
 @NgModule({
@@ -27,7 +32,7 @@ const routes: Routes = [
     MatFormFieldModule,
     MatBadgeModule,
     MatInputModule,
-    MatListModule
+    MatListModule,
   ],
   exports: [RouterModule]
 })

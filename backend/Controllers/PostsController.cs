@@ -77,8 +77,8 @@ public class PostsController : ControllerBase
         return principalPost.ToList().AddMany(comments);
     }
 
-    [Route("post/add")]
-    public ActionResult PostNewPost(Post post)
+    [HttpPost("post/add")]
+    public ActionResult PostNewPost([FromBody] Post post)
     {
         if (!ModelState.IsValid)
             return BadRequest("Invalid data.");

@@ -1,5 +1,7 @@
+<app-modal></app-modal>
 <app-side-bar></app-side-bar>
 <div class="main">
+
     <div class="card" *ngFor="let post of posts">  
         <div class="card-left">
             <div class="card-top-left">
@@ -20,7 +22,7 @@
         <div class="card-right">
             <p>
                 <button
-                    *ngIf="post.idAuthor == userId" 
+                    *ngIf="post.idAuthor == user.id" 
                     mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
                 >
                     <mat-icon>delete</mat-icon>

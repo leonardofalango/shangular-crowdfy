@@ -15,7 +15,7 @@ export class SideBarComponent
     {
       id : 0,
       completeName : '',
-      userName: '',
+      username: '',
       photo: '',
       bornDate: new Date,
       mail : '',
@@ -23,6 +23,7 @@ export class SideBarComponent
     };
 
     forums: Forum[] = []
+    userId: string | null = sessionStorage.getItem("userId");
 
     auth: string = ''
 
@@ -32,18 +33,19 @@ export class SideBarComponent
     ) { }
 
     ngOnInit(): void {
-      // this
-      //   .userService
-      //   .getUser(sessionStorage
-      //       .getItem('userId'))
-      //   .subscribe(x => this.user)
+      this.userService
+        .getUser(this.userId)
+        .subscribe(u => {
+          this.user = u;
+          console.log(u);
+        })
+      
         
       this.user.isAuth == 0?
         this.auth = "User Comum"
         : this.auth = "Adimininastro"
       
-      this
-        .forumService
+      this.forumService
         .getSubscribedForums(sessionStorage.getItem('userId'))
         .subscribe(
           x => this.forums = x
