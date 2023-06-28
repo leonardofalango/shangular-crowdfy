@@ -12,6 +12,7 @@ public partial class User
     public string? Username { get; set; }
 
     public string? Photo { get; set; }
+    public string? Salt { get; set; }
 
     public DateTime? BornDate { get; set; }
 

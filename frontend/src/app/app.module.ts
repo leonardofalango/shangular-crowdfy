@@ -13,18 +13,20 @@ import { FormFieldComponent } from './form-field/form-field.component';
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import { NotificationComponent } from './notification/notification.component';
 import { FooterComponent } from './footer/footer.component';
+import { InnerModalComponent } from './inner-modal/inner-modal.component';
 
+// ! Angular Material
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatBadgeModule } from '@angular/material/badge';
-import { InnerModalComponent } from './inner-modal/inner-modal.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+// ! Angular Material
 
 import { HttpClientModule } from '@angular/common/http';
 import { SignInComponent } from './sign-in/sign-in.component';
