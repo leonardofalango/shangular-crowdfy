@@ -1,5 +1,8 @@
+using security_jwt;
 using backend.Model;
 using backend.Controllers;
+using backend.Model.Interfaces;
+using backend.Model.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,8 +27,11 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<CrowdfyContext>(); // Shared Context
 
-builder.Services.AddTransient<PostsController>(); // Create class every req
-builder.Services.AddTransient<ForumController>(); // Create class every req
+builder.Services.AddTransient<IService<Post>, PostService>(); // Create class every req
+builder.Services.AddTransient<IService<Forum>, ForumService>(); // Create class every req
+builder.Services.AddTransient<IService<User>, UserService>(); // Create class every req
+
+builder.Services.AddTransient<IJwtService, JwtService>();
 
 var app = builder.Build();
 

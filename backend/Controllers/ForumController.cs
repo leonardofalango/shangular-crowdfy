@@ -1,6 +1,9 @@
 using backend.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
+using backend.Model.Services;
+using backend.Model.Interfaces;
+using security_jwt;
 
 namespace backend.Controllers;
 
@@ -17,38 +20,76 @@ namespace backend.Controllers;
 [EnableCors("MainPolicy")]
 public class ForumController : ControllerBase
 {
-    private CrowdfyContext context;
-
-    public ForumController(CrowdfyContext ctt)
-        => this.context = ctt;
-
-    [HttpGet]
-    public IEnumerable<Forum> GetAllForums()
-        => context.Forums.Take(100);
-    
     [HttpPost("add")]
-    public ActionResult CreateForum([FromBody] Forum forum)
+    public async Task<ActionResult> Add(
+        [FromBody] Forum forum,
+        [FromBody] User user,
+        [FromServices] IService<Forum> forumService,
+        [FromServices] IJwtService jwt
+    )
     {
-        if (!ModelState.IsValid)
-            return BadRequest("Invalid data.");
-        
-        context.Forums.Add(forum);
-        context.SaveChanges();
+        User usr = jwt.Validate<User>(jwt.GetToken(user));
 
+        if (!ModelState.IsValid)
+            return BadRequest();
+
+        if (!await forumService.Create(forum))
+            return StatusCode(503);
+            
         return Ok();
     }
 
-    [Route("{userId}")]
-    public IEnumerable<Forum> GetSubscribedForums(int userId) =>
-        from forum in context.Forums
-        where forum.IdUsers.Any(user => user.Id == userId)
-        select forum;
-    
-    [Route("name/{forumName}")]
-    public Forum? GetForumByName(string forumName)
-        => context
-            .Forums
-            .FirstOrDefault(
-                f => f.Title! == forumName
-            );
+    [HttpPost("delete")]
+    public async Task<ActionResult> Delete(
+        [FromBody] Forum forum,
+        [FromServices] IService<Forum> forumService
+    )
+    {
+        if (!await forumService.Delete(forum))
+            return StatusCode(503);
+        return Ok();
+    }
+
+    [HttpGet("updateById/{id}")]
+    public async Task<ActionResult> UpdateById(
+        int id,
+        [FromServices] IService<Forum> forumService
+    )
+    {
+        Forum? f = await forumService.GetById(id);
+
+        if (f == null)
+            return StatusCode(404);
+
+        if (!await forumService.Update(f))
+            return StatusCode(503);
+        
+        return Ok();
+    }
+
+    [HttpPost("update")]
+    public async Task<ActionResult> Update(
+        [FromBody] Forum forum,
+        [FromServices] IService<Forum> forumService
+    )
+    {
+        if (!await forumService.Update(forum))
+            return StatusCode(503);
+        
+        return Ok();
+    }
+
+    [HttpGet("get/{id}")]
+    public async Task<ActionResult<Forum>> GetById(
+        int id,
+        [FromServices] IService<Forum> forumService
+    )
+    {
+        Forum? f = await forumService.GetById(id);
+        if (f == null)
+            return StatusCode(404);
+        
+        return f;
+    }
+
 }

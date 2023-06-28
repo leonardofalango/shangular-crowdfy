@@ -12,7 +12,6 @@ public partial class User
     public string? Username { get; set; }
 
     public string? Photo { get; set; }
-    public string? Salt { get; set; }
 
     public DateTime? BornDate { get; set; }
 
@@ -20,7 +19,13 @@ public partial class User
 
     public int? IsAuth { get; set; }
 
-    public virtual ICollection<Forum> IdForums { get; set; } = new List<Forum>();
+    public string? HashCode { get; set; }
 
-    public virtual ICollection<Post> IdPosts { get; set; } = new List<Post>();
+    public string? Salt { get; set; }
+
+    public virtual ICollection<Forum> Forums { get; set; } = new List<Forum>();
+
+    public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
+
+    public virtual ICollection<Forum> IdForums { get; set; } = new List<Forum>();
 }

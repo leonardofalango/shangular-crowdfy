@@ -1,6 +1,9 @@
 using backend.Model;
+using backend.Model.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
+using System.Linq.Expressions;
+using backend.Model.Services;
 
 namespace backend.Controllers;
 
@@ -13,86 +16,48 @@ namespace backend.Controllers;
 
 
 [ApiController]
-[Route("")]
+[Route("post")]
 [EnableCors("MainPolicy")]
 public class PostsController : ControllerBase
 {
-    private CrowdfyContext context;
-    private int counter = -1;
-    private int getCounter
+    [HttpPost("add")]
+    public async Task<ActionResult> Add(
+        [FromBody] Post post,
+        [FromServices] PostService postService
+    )
     {
-        get => counter++;
-        set => this.counter = value;
-    }
-    public PostsController(CrowdfyContext ctt)
-        => this.context = ctt;
-    
-    private IEnumerable<CompletePost> getFullJoin()
-        => from p in context.Posts
-                join u in context.Users
-                    on p.Author equals u.Id
-                        join f in context.Forums
-                            on p.IdForum equals f.Id
-        select new CompletePost
-        {
-            IdAuthor = u.Id,
-            AuthorName = u.Username,
-            Content = p.Content,
-            CreatedAt = p.CreatedAt,
-            Crowds = p.Crowds,
-            Comments = p.Comments,
-            IdPost = p.Id,
-            FKPost = p.IdPost,
-            Photo = u.Photo,
-            IdForum = p.IdForum,
-            ForumName = f.Title,
-            Title = p.Title
-        };
-
-    private IEnumerable<CompletePost> getOrderedFullJoin()
-        => getFullJoin().OrderBy(e => e.CreatedAt);
-
-    [HttpGet("")]
-    public IEnumerable<CompletePost> Get()
-        => GetIndex(0);
-    
-    [HttpGet("{indexStart}")]
-    public IEnumerable<CompletePost> GetIndex(int indexStart)
-        => getOrderedFullJoin()
-            .SkipWhile(e => getCounter < indexStart)
-            .Take(10);
-
-    [HttpGet("{forum}/{indexStart}")]
-    public IEnumerable<CompletePost> GetForum(string forum, int indexStart = 0)
-        => getOrderedFullJoin()
-        .Where(e => e.ForumName == forum)
-        .SkipWhile(p => getCounter < indexStart);
-
-    [HttpGet("post/{idPost}")]
-    public IEnumerable<CompletePost> GetPost(int idPost)
-    {
-        IEnumerable<CompletePost> principalPost = getFullJoin().Where(e => e.IdPost == idPost);
-        IEnumerable<CompletePost> comments = getFullJoin().Where(e => e.FKPost == idPost);
-
-        return principalPost.ToList().AddMany(comments);
-    }
-
-    [HttpPost("post/add")]
-    public ActionResult PostNewPost([FromBody] Post post)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest("Invalid data.");
+        if (!await postService.Create(post))
+            return StatusCode(503);
         
-        context.Posts.Add(post);
-        context.SaveChanges();
-
         return Ok();
     }
-
-    [Route("page/{page}")]
-    public IEnumerable<CompletePost> GetPage(int page)
-        => getOrderedFullJoin()
-            .Skip(page * 10)
-            .Take(10);
     
+    [HttpGet("getById/{id}")]
+    public async Task<ActionResult<Post>> GetById(
+        int id,
+        [FromServices] PostService postService
+    )
+    {
+        Post? post = await postService.GetById(id);
+
+        if (post == null)
+            return StatusCode(404);
+        
+        return post;
+    }
+    
+    [HttpGet("{page}")]
+    public async Task<ActionResult<IEnumerable<Post>>> GetPage(
+        int page,
+        [FromServices] PostService postService
+    )
+    {
+        List<Post> posts = await postService.GetPage(page);
+
+        if (posts.Count() == 0)
+            return StatusCode(404);
+        
+        return posts;
+    }
+
 }

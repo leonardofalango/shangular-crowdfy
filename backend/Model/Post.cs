@@ -13,21 +13,13 @@ public partial class Post
 
     public string? Content { get; set; }
 
+    public string? Anex { get; set; }
+
     public DateTime? CreatedAt { get; set; }
 
-    public int? Crowds { get; set; }
-
-    public int? Comments { get; set; }
-
     public int? IdPost { get; set; }
-
-    public int? IdForum { get; set; }
-
-    public virtual Forum? IdForumNavigation { get; set; }
 
     public virtual Post? IdPostNavigation { get; set; }
 
     public virtual ICollection<Post> InverseIdPostNavigation { get; set; } = new List<Post>();
-
-    public virtual ICollection<User> IdUsers { get; set; } = new List<User>();
 }

@@ -1,59 +1,42 @@
 using backend.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
-using System.Security.Cryptography;
-using System.Text;
+using backend.Model.Services;
+using backend.Model.Interfaces;
+using security_jwt;
 
 namespace backend.Controllers;
+
 
 // ?Routes
 
 [Route("user")]
 [EnableCors("MainPolicy")]
 public class UserController : ControllerBase
-{    
-    private CrowdfyContext context;
-
-    public UserController(CrowdfyContext ctt)
-        => this.context = ctt;
-        
-    //! FIND USER BY ID
-    [Route("{userId}")]
-    public User? GetUser(int userId)
-        => this.context
-            .Users
-            .FirstOrDefault(
-                e => e.Id == userId
-            );
-    
-    [Route("")]
-    public IEnumerable<User> GetAllUsers()
-        => this.context
-            .Users
-            .Take(100);
-    
-    [Route("login")]
-    public JWT.JwtParts? Login([FromBody] Login usr)
+{
+    [HttpPost("add")]
+    public async Task<ActionResult> Add(
+        [FromBody] User user,
+        [FromServices] IService<User> userService
+    )
     {
-        User? user = context.Users.FirstOrDefault(
-            u => u.Mail == usr.login || u.Username == usr.login
-        );
+        if (!await userService.Create(user))
+            return StatusCode(503);
+        
+        return Ok();
+    }
+    
+    [HttpGet("getById/{id}")]
+    public async Task<ActionResult<User>> GetById(
+        int id,
+        [FromServices] IService<User> userService
+    )
+    {
+        User? user = await userService.GetById(id);
 
         if (user == null)
-            return null;
+            return StatusCode(404);
         
-        string databasePassword = hashEncode(usr.password + user.Salt);
-        
+        return user;
     }
-
-    private string hashEncode(string str)
-    {
-        using var sha = SHA256.Create();
-        var bytes = Encoding.UTF8.GetBytes(str);
-        var hasBytes = sha.ComputeHash(bytes);
-        var hash = Convert.ToBase64String(hasBytes);
-        
-        return hash;
-    }
-    
 }

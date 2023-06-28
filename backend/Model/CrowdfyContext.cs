@@ -6,7 +6,6 @@ namespace backend.Model;
 
 public partial class CrowdfyContext : DbContext
 {
-    #pragma warning disable
     public CrowdfyContext()
     {
     }
@@ -20,6 +19,8 @@ public partial class CrowdfyContext : DbContext
 
     public virtual DbSet<Post> Posts { get; set; }
 
+    public virtual DbSet<Role> Roles { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -30,9 +31,9 @@ public partial class CrowdfyContext : DbContext
     {
         modelBuilder.Entity<Forum>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__forum__3214EC079D1A06B7");
+            entity.HasKey(e => e.Id).HasName("PK__forums__3214EC0767ECD5DB");
 
-            entity.ToTable("forum");
+            entity.ToTable("forums");
 
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
@@ -44,43 +45,64 @@ public partial class CrowdfyContext : DbContext
             entity.Property(e => e.Title)
                 .HasMaxLength(80)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.CreatorNavigation).WithMany(p => p.Forums)
+                .HasForeignKey(d => d.Creator)
+                .HasConstraintName("FK__forums__Creator__398D8EEE");
         });
 
         modelBuilder.Entity<Post>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__posts__3214EC071E5EFAAF");
+            entity.HasKey(e => e.Id).HasName("PK__posts__3214EC0708F440B9");
 
             entity.ToTable("posts");
 
-            entity.Property(e => e.Comments).HasDefaultValueSql("((0))");
+            entity.Property(e => e.Anex).IsUnicode(false);
             entity.Property(e => e.Content)
                 .HasMaxLength(320)
                 .IsUnicode(false);
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.Crowds).HasDefaultValueSql("((0))");
             entity.Property(e => e.Title)
                 .HasMaxLength(90)
                 .IsUnicode(false);
 
-            entity.HasOne(d => d.IdForumNavigation).WithMany(p => p.Posts)
-                .HasForeignKey(d => d.IdForum)
-                .HasConstraintName("FK__posts__IdForum__47DBAE45");
-
             entity.HasOne(d => d.IdPostNavigation).WithMany(p => p.InverseIdPostNavigation)
                 .HasForeignKey(d => d.IdPost)
-                .HasConstraintName("FK__posts__IdPost__37A5467C");
+                .HasConstraintName("FK__posts__IdPost__4316F928");
+        });
+
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__roles__3214EC0742784FE9");
+
+            entity.ToTable("roles");
+
+            entity.Property(e => e.Name)
+                .HasMaxLength(80)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.IdForumNavigation).WithMany(p => p.Roles)
+                .HasForeignKey(d => d.IdForum)
+                .HasConstraintName("FK__roles__IdForum__46E78A0C");
+
+            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Roles)
+                .HasForeignKey(d => d.IdUser)
+                .HasConstraintName("FK__roles__IdUser__45F365D3");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__users__3214EC074B96BD14");
+            entity.HasKey(e => e.Id).HasName("PK__users__3214EC0747AA57DD");
 
             entity.ToTable("users");
 
             entity.Property(e => e.BornDate).HasColumnType("datetime");
             entity.Property(e => e.Completename)
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.HashCode)
                 .HasMaxLength(100)
                 .IsUnicode(false);
             entity.Property(e => e.IsAuth)
@@ -90,6 +112,9 @@ public partial class CrowdfyContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Photo).IsUnicode(false);
+            entity.Property(e => e.Salt)
+                .HasMaxLength(50)
+                .IsUnicode(false);
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .IsUnicode(false);
@@ -100,32 +125,15 @@ public partial class CrowdfyContext : DbContext
                     r => r.HasOne<Forum>().WithMany()
                         .HasForeignKey("IdForum")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__userXforu__IdFor__2A4B4B5E"),
+                        .HasConstraintName("FK__userXforu__IdFor__3E52440B"),
                     l => l.HasOne<User>().WithMany()
                         .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__userXforu__IdUse__29572725"),
+                        .HasConstraintName("FK__userXforu__IdUse__3D5E1FD2"),
                     j =>
                     {
-                        j.HasKey("IdUser", "IdForum").HasName("PK__userXfor__A8B315B394F0E6DB");
+                        j.HasKey("IdUser", "IdForum").HasName("PK__userXfor__A8B315B36902D80C");
                         j.ToTable("userXforum");
-                    });
-
-            entity.HasMany(d => d.IdPosts).WithMany(p => p.IdUsers)
-                .UsingEntity<Dictionary<string, object>>(
-                    "UserXlike",
-                    r => r.HasOne<Post>().WithMany()
-                        .HasForeignKey("IdPost")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__userXlike__IdPos__5DCAEF64"),
-                    l => l.HasOne<User>().WithMany()
-                        .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__userXlike__IdUse__5CD6CB2B"),
-                    j =>
-                    {
-                        j.HasKey("IdUser", "IdPost").HasName("PK__userXlik__7844EDEC4E70EE72");
-                        j.ToTable("userXlike");
                     });
         });
 
