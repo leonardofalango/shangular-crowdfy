@@ -1,21 +1,29 @@
 using System.Linq.Expressions;
 using backend.Model.Interfaces;
+using backend.DataTransferObject;
 using Microsoft.EntityFrameworkCore;
-using security_jwt;
+using backend.Security.Hash;
 
 namespace backend.Model.Services;
 
-public class UserService : IService<User>
+public class UserService : IUserService
 {
     private CrowdfyContext context;
 
     public UserService(CrowdfyContext ctt)
         => this.context = ctt;
 
+    public string? ApplyHash(string pass, IHashAlgoritm alg)
+        => alg.ToHash(pass);
+
     public async Task<bool> Create(User obj)
     {
         try 
         {
+            obj.Salt = new Security
+                .TextSalt()
+                .GetSalt();
+
             await this.context.Users.AddAsync(obj);
             await this.context.SaveChangesAsync();
         }
@@ -50,6 +58,23 @@ public class UserService : IService<User>
         req = await this.context.Users.FirstOrDefaultAsync(User => User.Id == id);
         
         return req;
+    }
+
+    #pragma warning disable
+    public async Task<string?> GetJwt(LoginDTO log)
+    {
+        #pragma warning disable
+        string? salt = this.context.Users.FirstOrDefault(
+            user => 
+                user.Username == log.login || user.Mail == log.login
+        ).Salt;
+
+        if (salt is null)
+            return null;
+        
+        string passwordSalt = log.password + salt;
+
+        return ApplyHash(passwordSalt, new Base64SHA256());
     }
 
     public async Task<IEnumerable<User>> Take(int quantity)

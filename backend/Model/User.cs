@@ -27,5 +27,7 @@ public partial class User
 
     public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 
+    public virtual ICollection<UserXlike> UserXlikes { get; set; } = new List<UserXlike>();
+
     public virtual ICollection<Forum> IdForums { get; set; } = new List<Forum>();
 }

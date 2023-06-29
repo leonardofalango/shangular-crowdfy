@@ -1,15 +1,15 @@
+
+
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
+using backend.Model;
 using backend.Model.Interfaces;
-using backend.DataTransferObject;
+using Microsoft.EntityFrameworkCore;
 
-namespace backend.Model.Services;
-
-public class ForumService : IForumService
+public class RepoForum : IRepository<Forum>
 {
     private CrowdfyContext context;
 
-    public ForumService(CrowdfyContext ctt)
+    public RepoForum(CrowdfyContext ctt)
         => this.context = ctt;
 
      public async Task<bool> Create(Forum obj)
@@ -42,23 +42,6 @@ public class ForumService : IForumService
 
     public async Task<List<Forum>> Filter(Expression<Func<Forum, bool>> exp)
         => await this.context.Forums.Where(exp).ToListAsync();
-
-    public async Task<Forum?> GetById(int id)
-    {
-        Forum? req = new Forum();
-        
-        req = await this.context.Forums.FirstOrDefaultAsync(Forum => Forum.Id == id);
-        
-        return req;
-    }
-    
-    public async Task<IEnumerable<Forum>> Take(int quantity)
-    {
-        var query = from forum in this.context.Users.
-                    on 
-    }
-
-
     public async Task<bool> Update(Forum obj)
     {
         try 

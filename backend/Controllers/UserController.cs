@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using backend.Model.Services;
 using backend.Model.Interfaces;
 using security_jwt;
+using backend.DataTransferObject;
 
 namespace backend.Controllers;
 
@@ -38,5 +39,19 @@ public class UserController : ControllerBase
             return StatusCode(404);
         
         return user;
+    }
+
+    [HttpPost("login")]
+    public async Task<ActionResult<string?>> Login(
+        [FromBody] LoginDTO login,
+        [FromServices] IUserService userService
+    )
+    {
+        string? jwt = await userService.GetJwt(login);
+
+        if (jwt is null)
+            return StatusCode(401);
+        
+        return jwt;
     }
 }

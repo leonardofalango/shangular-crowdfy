@@ -31,6 +31,10 @@ builder.Services.AddTransient<IService<Post>, PostService>(); // Create class ev
 builder.Services.AddTransient<IService<Forum>, ForumService>(); // Create class every req
 builder.Services.AddTransient<IService<User>, UserService>(); // Create class every req
 
+builder.Services.AddTransient<IPasswordProvider>(
+    p => new PasswordProvider("chupiquete")
+);
+
 builder.Services.AddTransient<IJwtService, JwtService>();
 
 var app = builder.Build();
@@ -58,5 +62,14 @@ public static class ExtensionMethods
             l.Add(item);
         }
         return l;
+    }
+
+    
+    public static bool isIn(this int? n, int[] arr)
+    {
+        foreach (var number in arr)
+            if (n == number)
+                return true;
+        return false;
     }
 }

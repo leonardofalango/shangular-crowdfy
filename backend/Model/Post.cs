@@ -19,7 +19,13 @@ public partial class Post
 
     public int? IdPost { get; set; }
 
+    public int? IdForum { get; set; }
+
+    public virtual Forum? IdForumNavigation { get; set; }
+
     public virtual Post? IdPostNavigation { get; set; }
 
     public virtual ICollection<Post> InverseIdPostNavigation { get; set; } = new List<Post>();
+
+    public virtual ICollection<UserXlike> UserXlikes { get; set; } = new List<UserXlike>();
 }

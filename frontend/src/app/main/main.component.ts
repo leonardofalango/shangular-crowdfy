@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CompletePost } from '../../services/Post'
+import { Post } from '../../services/Post'
 import { PostService } from 'src/services/PostService';
 import { UserService } from '../../services/UserService'
 import { User } from 'src/services/User';
@@ -13,7 +13,7 @@ import { User } from 'src/services/User';
 export class MainComponent 
   implements OnInit{
 
-    posts: CompletePost[] = [];
+    posts: Post[] = [];
     pageNumber: number = 0;
     userId: string | null = sessionStorage.getItem('userId');
     user: User = 

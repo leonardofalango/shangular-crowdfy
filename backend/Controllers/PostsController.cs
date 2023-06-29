@@ -2,17 +2,10 @@ using backend.Model;
 using backend.Model.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
-using System.Linq.Expressions;
 using backend.Model.Services;
+using backend.DataTransferObject;
 
 namespace backend.Controllers;
-
-// Routes
-// localhost:5177/?index
-// localhost:5177/?forum/?index
-// localhost:5177/post/?idPost
-// localhost:5177/post/add
-
 
 
 [ApiController]
@@ -23,7 +16,7 @@ public class PostsController : ControllerBase
     [HttpPost("add")]
     public async Task<ActionResult> Add(
         [FromBody] Post post,
-        [FromServices] PostService postService
+        [FromServices] IPostService postService
     )
     {
         if (!await postService.Create(post))
@@ -35,7 +28,7 @@ public class PostsController : ControllerBase
     [HttpGet("getById/{id}")]
     public async Task<ActionResult<Post>> GetById(
         int id,
-        [FromServices] PostService postService
+        [FromServices] IPostService postService
     )
     {
         Post? post = await postService.GetById(id);
@@ -46,13 +39,14 @@ public class PostsController : ControllerBase
         return post;
     }
     
-    [HttpGet("{page}")]
-    public async Task<ActionResult<IEnumerable<Post>>> GetPage(
+    [HttpGet("{filters}+{page}")]
+    public async Task<ActionResult<IEnumerable<PostDTO>>> GetPage(
+        int[] filters,
         int page,
-        [FromServices] PostService postService
+        [FromServices] IPostService postService
     )
     {
-        List<Post> posts = await postService.GetPage(page);
+        List<PostDTO> posts = await postService.GetPageWithCrowdsFilter(filters, page);
 
         if (posts.Count() == 0)
             return StatusCode(404);

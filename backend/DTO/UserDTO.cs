@@ -1,3 +1,5 @@
+namespace backend.DataTransferObject;
+
 public class UserDTO
 {
     public string? Completename { get; set; }

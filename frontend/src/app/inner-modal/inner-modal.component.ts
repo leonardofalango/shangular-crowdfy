@@ -8,7 +8,7 @@ import { AsyncPipe, NgFor } from '@angular/common';
 import { Observable, map, startWith } from 'rxjs';
 import { Forum } from 'src/services/Forum';
 import { ForumService } from 'src/services/ForumService';
-import { CompletePost, Post } from 'src/services/Post';
+import { Post } from 'src/services/Post';
 import { FormsModule } from '@angular/forms'
 import { PostService } from 'src/services/PostService';
 
@@ -46,15 +46,16 @@ export class InnerModalComponent
 
   post: Post =
     {
-      id: 0,
-      author: Number(this.userId),
+      authorName: '',
       title: '',
       content: '',
       createdAt: new Date,
       crowds: 0,
       comments: 0,
-      idForum: 0,
-      idPost: sessionStorage.getItem("FKPost") ? 0 : Number(sessionStorage.getItem("FKPost")),
+      forumName: '',
+      idPost: 0,
+      photo: '',
+      archive: ''
     }
 
 
@@ -92,7 +93,7 @@ export class InnerModalComponent
       .getForumByName(this.selectOption)
       .subscribe(x =>
       {
-        this.post.idForum = x.id
+        this.post.forumName = x.title
         
         this.postService
           .postPost(this.post)

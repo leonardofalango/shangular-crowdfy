@@ -19,6 +19,8 @@ public partial class Forum
 
     public virtual User? CreatorNavigation { get; set; }
 
+    public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+
     public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 
     public virtual ICollection<User> IdUsers { get; set; } = new List<User>();

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Cors;
 using backend.Model.Services;
 using backend.Model.Interfaces;
 using security_jwt;
+using backend.DataTransferObject;
 
 namespace backend.Controllers;
 
@@ -22,14 +23,14 @@ public class ForumController : ControllerBase
 {
     [HttpPost("add")]
     public async Task<ActionResult> Add(
-        [FromBody] Forum forum,
-        [FromBody] User user,
-        [FromServices] IService<Forum> forumService,
+        [FromBody] ForumDTO forum,
+        [FromServices] IForumService forumService,
         [FromServices] IJwtService jwt
     )
     {
-        User usr = jwt.Validate<User>(jwt.GetToken(user));
-
+        // jwt.Validate(input do front)
+        // jwt.GetToken()
+        
         if (!ModelState.IsValid)
             return BadRequest();
 

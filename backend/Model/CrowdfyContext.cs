@@ -23,6 +23,8 @@ public partial class CrowdfyContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<UserXlike> UserXlikes { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=CT-C-0013K\\SQLEXPRESS01;Initial Catalog=crowdfy;Integrated Security=True;TrustServerCertificate=true");
@@ -67,6 +69,10 @@ public partial class CrowdfyContext : DbContext
             entity.Property(e => e.Title)
                 .HasMaxLength(90)
                 .IsUnicode(false);
+
+            entity.HasOne(d => d.IdForumNavigation).WithMany(p => p.Posts)
+                .HasForeignKey(d => d.IdForum)
+                .HasConstraintName("FK__posts__IdForum__4BAC3F29");
 
             entity.HasOne(d => d.IdPostNavigation).WithMany(p => p.InverseIdPostNavigation)
                 .HasForeignKey(d => d.IdPost)
@@ -135,6 +141,21 @@ public partial class CrowdfyContext : DbContext
                         j.HasKey("IdUser", "IdForum").HasName("PK__userXfor__A8B315B36902D80C");
                         j.ToTable("userXforum");
                     });
+        });
+
+        modelBuilder.Entity<UserXlike>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__userXlik__3214EC07335BF379");
+
+            entity.ToTable("userXlikes");
+
+            entity.HasOne(d => d.IdPostNavigation).WithMany(p => p.UserXlikes)
+                .HasForeignKey(d => d.IdPost)
+                .HasConstraintName("FK__userXlike__IdPos__4AB81AF0");
+
+            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.UserXlikes)
+                .HasForeignKey(d => d.IdUser)
+                .HasConstraintName("FK__userXlike__IdUse__49C3F6B7");
         });
 
         OnModelCreatingPartial(modelBuilder);

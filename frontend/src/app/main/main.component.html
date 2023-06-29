@@ -22,7 +22,7 @@
         <div class="card-right">
             <p>
                 <button
-                    *ngIf="post.idAuthor == user.id" 
+                    *ngIf="post.authorName== user.username" 
                     mat-mini-fab color="primary" aria-label="Example icon button with a delete icon"
                 >
                     <mat-icon>delete</mat-icon>

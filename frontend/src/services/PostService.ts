@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CompletePost, Post } from './Post';
+import { Post } from './Post';
 import { HttpClient } from '@angular/common/http'
 
 @Injectable({
@@ -11,7 +11,7 @@ export class PostService {
 
   getPage(page: number)
   {
-    return this.http.get<CompletePost[]>("http://localhost:5177/page/" + page);
+    return this.http.get<Post[]>("http://localhost:5177/post/page/" + page);
   }
 
   postPost(post: Post)
