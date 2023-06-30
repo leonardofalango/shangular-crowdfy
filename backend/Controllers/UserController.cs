@@ -46,6 +46,7 @@ public class UserController : ControllerBase
         [FromServices] IUserService userRepo
     )
     {
+        
         string? jwt = await userRepo.GetJwt(login);
 
         if (jwt is null)

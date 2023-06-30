@@ -91,7 +91,7 @@ public class ForumController : ControllerBase
     public async Task<ActionResult<Forum>> GetById(
         int id,
         [FromServices] IRepository<Forum> forumRepo,
-        [FromServices] ForumService forumService
+        [FromServices] IForumService forumService
     )
     {
         Forum? f = await forumService.GetById(id);
@@ -99,6 +99,23 @@ public class ForumController : ControllerBase
             return StatusCode(404);
         
         return f;
+    }
+
+    [HttpGet("")]
+    public async Task<ActionResult<List<Forum>>> GetAll(
+        [FromServices] IRepository<Forum> forumRepo,
+        [FromServices] IForumService forumService
+        
+    )
+    {
+        var forums = await forumService.GetAll();
+
+        if (forums.Count == 0)
+        {
+            return NotFound();
+        }
+
+        return forums;
     }
 
 }

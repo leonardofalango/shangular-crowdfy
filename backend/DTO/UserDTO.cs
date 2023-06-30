@@ -2,6 +2,7 @@ namespace backend.DataTransferObject;
 
 public class UserDTO
 {
+    public int Id { get; set; }
     public string? Completename { get; set; }
 
     public string? Username { get; set; }

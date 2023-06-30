@@ -17,4 +17,7 @@ public class ForumService : IForumService
             forum => forum.Id == id
         );
     
+    public Task<List<Forum>> GetAll()
+        => this.context.Forums.ToListAsync();
+    
 }
