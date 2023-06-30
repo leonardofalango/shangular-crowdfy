@@ -6,7 +6,8 @@ namespace backend.Model.Interfaces;
 
 public interface IForumService
 {
-    Task<Forum?> GetById (int id);
-
-    Task<List<Forum>> GetAll ();
+    Task<ForumDTO?> GetById (int id);
+    Task<List<ForumDTO>> GetAll ();
+    Task<List<ForumDTO>> GetByName(string name);
+    Task<List<ForumDTO>> GetSubscribedForums(UserDTO user);
 }

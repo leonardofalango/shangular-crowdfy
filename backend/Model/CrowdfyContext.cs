@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Model;
-
+#pragma warning disable
 public partial class CrowdfyContext : DbContext
 {
     public CrowdfyContext()

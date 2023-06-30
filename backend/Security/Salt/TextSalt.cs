@@ -1,4 +1,5 @@
 namespace backend.Security;
+#pragma warning disable
 
 public class TextSalt : ISalt
 {

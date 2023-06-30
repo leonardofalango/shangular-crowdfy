@@ -12,12 +12,28 @@ public class ForumService : IForumService
     public ForumService(CrowdfyContext ctt)
         => this.context = ctt;
 
-    public Task<Forum?> GetById(int id)
-        => this.context.Forums.FirstOrDefaultAsync(
-            forum => forum.Id == id
+    public Task<ForumDTO?> GetById(int id)
+    {
+        var query = from forum in this.context.Forums
+        where forum.Id == id
+        join user in this.context.Users
+            on forum.Creator equals user.Id
+        select new ForumDTO(
+            user.Username,
+            forum.CreatedAt,
+            forum.Title,
+            forum.Description,
+            forum.Photo
         );
+
+        return query.FirstOrDefaultAsync();
+    }
+
     
-    public Task<List<Forum>> GetAll()
-        => this.context.Forums.ToListAsync();
+    public Task<List<ForumDTO>> GetAll()
+    {
+        throw new NotImplementedException();
+    }
+
     
 }
