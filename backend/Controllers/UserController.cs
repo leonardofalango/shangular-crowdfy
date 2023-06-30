@@ -1,9 +1,7 @@
 using backend.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
-using backend.Model.Services;
 using backend.Model.Interfaces;
-using security_jwt;
 using backend.DataTransferObject;
 
 namespace backend.Controllers;
@@ -18,10 +16,10 @@ public class UserController : ControllerBase
     [HttpPost("add")]
     public async Task<ActionResult> Add(
         [FromBody] User user,
-        [FromServices] IService<User> userService
+        [FromServices] IRepository<User> userRepo
     )
     {
-        if (!await userService.Create(user))
+        if (!await userRepo.Create(user))
             return StatusCode(503);
         
         return Ok();
@@ -30,7 +28,8 @@ public class UserController : ControllerBase
     [HttpGet("getById/{id}")]
     public async Task<ActionResult<User>> GetById(
         int id,
-        [FromServices] IService<User> userService
+        [FromServices] IRepository<User> userRepo,
+        [FromServices] IUserService userService
     )
     {
         User? user = await userService.GetById(id);
@@ -44,10 +43,10 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<string?>> Login(
         [FromBody] LoginDTO login,
-        [FromServices] IUserService userService
+        [FromServices] IUserService userRepo
     )
     {
-        string? jwt = await userService.GetJwt(login);
+        string? jwt = await userRepo.GetJwt(login);
 
         if (jwt is null)
             return StatusCode(401);

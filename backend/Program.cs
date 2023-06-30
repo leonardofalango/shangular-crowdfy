@@ -27,9 +27,12 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<CrowdfyContext>(); // Shared Context
 
-builder.Services.AddTransient<IService<Post>, PostService>(); // Create class every req
-builder.Services.AddTransient<IService<Forum>, ForumService>(); // Create class every req
-builder.Services.AddTransient<IService<User>, UserService>(); // Create class every req
+builder.Services.AddTransient<IRepository<Post>, RepoPost>(); // Create class every req
+builder.Services.AddTransient<IRepository<Forum>, RepoForum>(); // Create class every req
+builder.Services.AddTransient<IRepository<User>, RepoUser>(); // Create class every req
+
+builder.Services.AddTransient<IUserService, UserService>(); // Create class every req
+builder.Services.AddTransient<IPostService, PostService>(); // Create class every req
 
 builder.Services.AddTransient<IPasswordProvider>(
     p => new PasswordProvider("chupiquete")

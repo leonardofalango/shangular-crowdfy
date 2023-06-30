@@ -4,7 +4,7 @@ public class PostDTO
 {
     public int Id { get; set; }
 
-    public int? Author { get; set; }
+    public string? Author { get; set; }
 
     public string? Title { get; set; }
 
@@ -18,7 +18,7 @@ public class PostDTO
     public int Likes { get; set; }
     public string? ForumName { get; set; }
 
-    public PostDTO(int id, int? author, string? title, string? content, string? anex, DateTime? createdAt, int? idPost, int likes, string? forumName)
+    public PostDTO(int id, string? author, string? title, string? content, string? anex, DateTime? createdAt, int? idPost, int likes, string? forumName)
     {
         Id = id;
         Author = author;

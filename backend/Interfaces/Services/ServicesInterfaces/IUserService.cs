@@ -3,11 +3,13 @@ using backend.DataTransferObject;
 
 namespace backend.Model.Interfaces;
 
-public interface IUserService : IService<User>
+public interface IUserService
 {
     //? Returns jwt to front
-    public Task<string?> GetJwt(LoginDTO log);
-
-    public string? ApplyHash(string pass, IHashAlgoritm alg);
-    
+    Task<string?> GetJwt(LoginDTO log);
+    string? ApplyHash(string pass, IHashAlgoritm alg);
+    Task<List<UserDTO>> GetPage(int page, int itemPerPage);
+    Task<List<UserDTO>> SearchByName(string username);
+    Task<User?> GetByName(string username);
+    Task<User?> GetById(int id);
 }

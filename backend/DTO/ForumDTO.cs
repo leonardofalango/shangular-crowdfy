@@ -14,5 +14,12 @@ public class ForumDTO
 
     public string? Photo { get; set; }
 
-
+    public ForumDTO(string? creator, DateTime? createdAt, string? title, string? description, string? photo)
+    {
+        Creator = creator;
+        CreatedAt = createdAt;
+        Title = title;
+        Description = description;
+        Photo = photo;
+    }
 }

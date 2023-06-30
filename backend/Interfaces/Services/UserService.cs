@@ -1,11 +1,10 @@
-using System.Linq.Expressions;
 using backend.Model.Interfaces;
 using backend.DataTransferObject;
 using Microsoft.EntityFrameworkCore;
 using backend.Security.Hash;
+#pragma warning disable
 
 namespace backend.Model.Services;
-
 public class UserService : IUserService
 {
     private CrowdfyContext context;
@@ -16,54 +15,23 @@ public class UserService : IUserService
     public string? ApplyHash(string pass, IHashAlgoritm alg)
         => alg.ToHash(pass);
 
-    public async Task<bool> Create(User obj)
-    {
-        try 
-        {
-            obj.Salt = new Security
-                .TextSalt()
-                .GetSalt();
+    public Task<List<UserDTO>> SearchByName(string username)
+        => this.context.Users
+            .Where(
+                user =>
+                user.Completename.Contains(username) ||
+                user.Username.Contains(username)
+            ).Select(user => new UserDTO(
+                user.Completename,
+                user.Username,
+                user.Photo,
+                user.BornDate,
+                user.Mail,
+                user.IsAuth
+            )).ToListAsync();
 
-            await this.context.Users.AddAsync(obj);
-            await this.context.SaveChangesAsync();
-        }
-        catch
-        {
-            return false;
-        }
-        return true;
-    }
-
-    public async Task<bool> Delete(User obj)
-    {
-        try 
-        {
-            this.context.Users.Remove(obj);
-            await this.context.SaveChangesAsync();
-        }
-        catch
-        {
-            return false;
-        }
-        return true;
-    }
-
-    public async Task<List<User>> Filter(Expression<Func<User, bool>> exp)
-        => await this.context.Users.Where(exp).ToListAsync();
-
-    public async Task<User?> GetById(int id)
-    {
-        User? req = new User();
-        
-        req = await this.context.Users.FirstOrDefaultAsync(User => User.Id == id);
-        
-        return req;
-    }
-
-    #pragma warning disable
     public async Task<string?> GetJwt(LoginDTO log)
     {
-        #pragma warning disable
         string? salt = this.context.Users.FirstOrDefault(
             user => 
                 user.Username == log.login || user.Mail == log.login
@@ -77,22 +45,34 @@ public class UserService : IUserService
         return ApplyHash(passwordSalt, new Base64SHA256());
     }
 
-    public async Task<IEnumerable<User>> Take(int quantity)
-        => await this.context.Users.Take(quantity).ToListAsync();
+    public Task<List<UserDTO>> GetPage(int page, int itemPerPage = 10)
+        => this.context.Users
+            .Skip(page * itemPerPage)
+            .Take(itemPerPage).Select(
+                user =>
+                new UserDTO(
+                    user.Completename,
+                    user.Username,
+                    user.Photo,
+                    user.BornDate,
+                    user.Mail,
+                    user.IsAuth
+                )
+            ).ToListAsync();
 
-    public async Task<bool> Update(User obj)
-    {
-        try 
-        {
-            var originalObj = this.context.Users.First(post => post.Id == obj.Id);
+    public Task<User?> GetById(int id)
+        => this.context.Users
+            .FirstOrDefaultAsync(
+                user =>
+                user.Id == id
+            );
 
-            this.context.Users.Update(obj);
-            await this.context.SaveChangesAsync();
-        }
-        catch
-        {
-            return false;
-        }
-        return true;
-    }
+    public Task<User?> GetByName(string name)
+        => this.context.Users
+            .FirstOrDefaultAsync(
+                user =>
+                user.Username == name ||
+                user.Completename == name
+            );
+
 }

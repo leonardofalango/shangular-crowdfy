@@ -3,9 +3,9 @@ using backend.DataTransferObject;
 namespace backend.Model.Interfaces;
 
 
-public interface IPostService : IService<Post>
+public interface IPostService
 {
-    public Task<List<Post>> GetPage(int page, int itemPerPage=10);
-    public Task<List<PostDTO>> GetPageWithCrowds(int page, int itemPerPage=10);
-    public Task<List<PostDTO>> GetPageWithCrowdsFilter(int[] forumId, int page, int itemPerPage=10);
+    Task<List<PostDTO>> GetPageWithCrowds(int page, int itemPerPage=10);
+    Task<List<PostDTO>> GetPageWithCrowdsFilter(int[] forumId, int page, int itemPerPage=10);
+    Task<List<PostDTO?>?> GetById(int id, int page, int itemPerPage=10);
 }

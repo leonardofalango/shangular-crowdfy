@@ -24,17 +24,23 @@ public class ForumController : ControllerBase
     [HttpPost("add")]
     public async Task<ActionResult> Add(
         [FromBody] ForumDTO forum,
-        [FromServices] IForumService forumService,
+        [FromServices] IRepository<Forum> forumRepo,
+        [FromServices] IUserService userService,
         [FromServices] IJwtService jwt
     )
     {
-        // jwt.Validate(input do front)
-        // jwt.GetToken()
+        Forum forumToInsert = new Forum();
+
+        forumToInsert.Title = forum.Title;
+        forumToInsert.Creator = userService.GetByName(forum.Creator!).Id;
+        forumToInsert.CreatedAt = forum.CreatedAt;
+        forumToInsert.Description = forum.Description;
+        forumToInsert.Photo = forum.Photo;
         
         if (!ModelState.IsValid)
             return BadRequest();
 
-        if (!await forumService.Create(forum))
+        if (!await forumRepo.Create(forumToInsert))
             return StatusCode(503);
             
         return Ok();
@@ -43,10 +49,10 @@ public class ForumController : ControllerBase
     [HttpPost("delete")]
     public async Task<ActionResult> Delete(
         [FromBody] Forum forum,
-        [FromServices] IService<Forum> forumService
+        [FromServices] IRepository<Forum> forumRepo
     )
     {
-        if (!await forumService.Delete(forum))
+        if (!await forumRepo.Delete(forum))
             return StatusCode(503);
         return Ok();
     }
@@ -54,7 +60,8 @@ public class ForumController : ControllerBase
     [HttpGet("updateById/{id}")]
     public async Task<ActionResult> UpdateById(
         int id,
-        [FromServices] IService<Forum> forumService
+        [FromServices] IRepository<Forum> forumRepo,
+        [FromServices] ForumService forumService
     )
     {
         Forum? f = await forumService.GetById(id);
@@ -62,7 +69,7 @@ public class ForumController : ControllerBase
         if (f == null)
             return StatusCode(404);
 
-        if (!await forumService.Update(f))
+        if (!await forumRepo.Update(f))
             return StatusCode(503);
         
         return Ok();
@@ -71,10 +78,10 @@ public class ForumController : ControllerBase
     [HttpPost("update")]
     public async Task<ActionResult> Update(
         [FromBody] Forum forum,
-        [FromServices] IService<Forum> forumService
+        [FromServices] IRepository<Forum> forumRepo
     )
     {
-        if (!await forumService.Update(forum))
+        if (!await forumRepo.Update(forum))
             return StatusCode(503);
         
         return Ok();
@@ -83,7 +90,8 @@ public class ForumController : ControllerBase
     [HttpGet("get/{id}")]
     public async Task<ActionResult<Forum>> GetById(
         int id,
-        [FromServices] IService<Forum> forumService
+        [FromServices] IRepository<Forum> forumRepo,
+        [FromServices] ForumService forumService
     )
     {
         Forum? f = await forumService.GetById(id);

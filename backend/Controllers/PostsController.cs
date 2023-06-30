@@ -7,7 +7,6 @@ using backend.DataTransferObject;
 
 namespace backend.Controllers;
 
-
 [ApiController]
 [Route("post")]
 [EnableCors("MainPolicy")]
@@ -16,37 +15,45 @@ public class PostsController : ControllerBase
     [HttpPost("add")]
     public async Task<ActionResult> Add(
         [FromBody] Post post,
-        [FromServices] IPostService postService
+        [FromServices] IRepository<Post> postRepo
     )
     {
-        if (!await postService.Create(post))
+        if (!await postRepo.Create(post))
             return StatusCode(503);
         
         return Ok();
     }
     
-    [HttpGet("getById/{id}")]
-    public async Task<ActionResult<Post>> GetById(
-        int id,
+    [HttpGet("getById/{id}-{page}")]
+    public async Task<ActionResult<List<PostDTO>?>?> GetById(
+        int id, int page,
+        [FromServices] IRepository<Post> postRepo,
         [FromServices] IPostService postService
     )
     {
-        Post? post = await postService.GetById(id);
+        List<PostDTO?>? post = await postService.GetById(id, page);
 
         if (post == null)
             return StatusCode(404);
         
-        return post;
+        return post!;
     }
     
     [HttpGet("{filters}+{page}")]
     public async Task<ActionResult<IEnumerable<PostDTO>>> GetPage(
-        int[] filters,
+        string filters,
         int page,
+        [FromServices] IRepository<Post> postRepo,
         [FromServices] IPostService postService
     )
     {
-        List<PostDTO> posts = await postService.GetPageWithCrowdsFilter(filters, page);
+        int[] filterArr = filters
+            .Split(",")
+            .Select(
+                filter => int.Parse(filter)
+            ).ToArray();
+
+        List<PostDTO> posts = await postService.GetPageWithCrowdsFilter(filterArr, page);
 
         if (posts.Count() == 0)
             return StatusCode(404);

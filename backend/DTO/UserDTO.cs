@@ -13,4 +13,14 @@ public class UserDTO
     public string? Mail { get; set; }
 
     public int? IsAuth { get; set; }
+
+    public UserDTO(string? completename, string? username, string? photo, DateTime? bornDate, string? mail, int? isAuth)
+    {
+        Completename = completename;
+        Username = username;
+        Photo = photo;
+        BornDate = bornDate;
+        Mail = mail;
+        IsAuth = isAuth;
+    }
 }
