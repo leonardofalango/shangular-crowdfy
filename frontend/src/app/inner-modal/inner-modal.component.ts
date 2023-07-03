@@ -81,14 +81,6 @@ export class InnerModalComponent
   }
 
   pub(): void {
-
-    console.log(this.selectOption);
-    console.log(this.selectOption);
-    console.log(this.selectOption);
-    console.log(this.selectOption);
-    console.log(this.selectOption);
-    console.log(this.selectOption);
-    
     this.service
       .getForumByName(this.selectOption)
       .subscribe(x =>

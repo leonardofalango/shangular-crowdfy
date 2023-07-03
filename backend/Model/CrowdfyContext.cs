@@ -23,6 +23,8 @@ public partial class CrowdfyContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<UserXforum> UserXforums { get; set; }
+
     public virtual DbSet<UserXlike> UserXlikes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -124,23 +126,25 @@ public partial class CrowdfyContext : DbContext
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .IsUnicode(false);
+        });
 
-            entity.HasMany(d => d.IdForums).WithMany(p => p.IdUsers)
-                .UsingEntity<Dictionary<string, object>>(
-                    "UserXforum",
-                    r => r.HasOne<Forum>().WithMany()
-                        .HasForeignKey("IdForum")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__userXforu__IdFor__3E52440B"),
-                    l => l.HasOne<User>().WithMany()
-                        .HasForeignKey("IdUser")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__userXforu__IdUse__3D5E1FD2"),
-                    j =>
-                    {
-                        j.HasKey("IdUser", "IdForum").HasName("PK__userXfor__A8B315B36902D80C");
-                        j.ToTable("userXforum");
-                    });
+        modelBuilder.Entity<UserXforum>(entity =>
+        {
+            entity.HasKey(e => new { e.IdUser, e.IdForum }).HasName("PK__userXfor__A8B315B36902D80C");
+
+            entity.ToTable("userXforum");
+
+            entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+            entity.HasOne(d => d.IdForumNavigation).WithMany(p => p.UserXforums)
+                .HasForeignKey(d => d.IdForum)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__userXforu__IdFor__3E52440B");
+
+            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.UserXforums)
+                .HasForeignKey(d => d.IdUser)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__userXforu__IdUse__3D5E1FD2");
         });
 
         modelBuilder.Entity<UserXlike>(entity =>

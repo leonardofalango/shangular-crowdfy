@@ -10,19 +10,15 @@ export class ForumService {
 
   constructor(private http: HttpClient) { }
 
-  getAllForums()
-  {
-    return this.http.get<Forum[]>("http://localhost:5177/forum")
-  }
+  getAllForums = () => this.http.get<Forum[]>("http://localhost:5177/forum")
+  
 
-  getSubscribedForums(id: string | null)
-  {
-    return this.http.get<Forum[]>("http://localhost:5177/forum/" + id)
-  }
+  getSubscribedForums = (id: string | null) => this.http.get<Forum[]>("http://localhost:5177/forum/get/" + id)
+  
 
-  getForumByName(name: string | null)
-  {
-    return this.http.get<Forum>("http://localhost:5177/forum/name/" + name)
-  }
+  getForumByName = (name: string | null) => this.http.get<Forum>("http://localhost:5177/forum/getByname/" + name)
+  
+
+  addForum = (forum: Forum) => this.http.post("https://localhost:5177/forum/add", forum)
 
 }

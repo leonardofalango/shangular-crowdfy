@@ -3,6 +3,7 @@ using backend.Model;
 using backend.Controllers;
 using backend.Model.Interfaces;
 using backend.Model.Services;
+using backend.DataTransferObject;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,5 +75,21 @@ public static class ExtensionMethods
             if (n == number)
                 return true;
         return false;
+    }
+
+    public static ForumDTO? ToDTO(this Forum f, CrowdfyContext context)
+    {
+        var query = from forums in context.Forums
+                    where forums.Id == f.Id
+                    join authors in context.Users
+                    on forums.Creator equals authors.Id
+                    select new ForumDTO(
+                        authors.Username,
+                        forums.CreatedAt,
+                        forums.Title,
+                        forums.Description,
+                        forums.Photo
+                    );
+        return query.FirstOrDefault();
     }
 }

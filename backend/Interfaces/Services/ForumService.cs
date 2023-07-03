@@ -29,11 +29,64 @@ public class ForumService : IForumService
         return query.FirstOrDefaultAsync();
     }
 
+
     
     public Task<List<ForumDTO>> GetAll()
     {
-        throw new NotImplementedException();
+        var query = from forums in context.Forums
+                    join authors in context.Users
+                    on forums.Creator equals authors.Id
+                    select new ForumDTO(
+                        authors.Username,
+                        forums.CreatedAt,
+                        forums.Title,
+                        forums.Description,
+                        forums.Photo
+                    );
+
+        return query.ToListAsync();
     }
 
-    
+    public Task<List<ForumDTO>> GetByName(string name)
+    {
+        var query = from f in this.context.Forums
+                    where f.Title!.Contains(name)
+                    join users in this.context.Users
+                        on f.Creator equals users.Id
+                        select new ForumDTO(
+                            users.Username,
+                            f.CreatedAt,
+                            f.Title,
+                            f.Description,
+                            f.Photo
+                        );
+        
+        return query.ToListAsync();
+    }
+
+    public Task<List<ForumDTO>> GetSubscribedForums(UserDTO user)
+    {
+        var query = from uXf in this.context.UserXforums
+                    where uXf.Id == user.Id
+                    join f in this.context.Forums
+                        on uXf.IdForum equals f.Id
+                    join u in this.context.Users
+                        on uXf.IdUser equals u.Id
+                    select new ForumDTO(
+                        u.Username,
+                        f.CreatedAt,
+                        f.Title,
+                        f.Description,
+                        f.Photo
+                    );
+        
+        return query.ToListAsync();
+    }
+
+    public Task<Forum?> GetForumById(int id)
+        => this.context.Forums
+            .FirstOrDefaultAsync(
+                forum =>
+                forum.Id == id
+            );
 }

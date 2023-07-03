@@ -23,5 +23,5 @@ public partial class Forum
 
     public virtual ICollection<Role> Roles { get; set; } = new List<Role>();
 
-    public virtual ICollection<User> IdUsers { get; set; } = new List<User>();
+    public virtual ICollection<UserXforum> UserXforums { get; set; } = new List<UserXforum>();
 }
