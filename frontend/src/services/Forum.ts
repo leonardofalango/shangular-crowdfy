@@ -5,4 +5,5 @@ export interface Forum
     title : string
     description : string
     photo : string
+    selected: boolean
 }

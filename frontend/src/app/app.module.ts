@@ -26,12 +26,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { SideBarComponent } from './side-bar/side-bar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 // ! Angular Material
 
 import { HttpClientModule } from '@angular/common/http';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { LoginComponent } from './login/login.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TestComponent } from './test/test.component';
 
 
 @NgModule({
@@ -50,6 +54,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SideBarComponent,
     SignInComponent,
     LoginComponent,
+    TestComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +72,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatIconModule,
     MatListModule,
     HttpClientModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatAutocompleteModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

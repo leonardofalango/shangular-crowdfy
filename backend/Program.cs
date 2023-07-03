@@ -34,6 +34,7 @@ builder.Services.AddTransient<IRepository<User>, RepoUser>(); // Create class ev
 
 builder.Services.AddTransient<IUserService, UserService>(); // Create class every req
 builder.Services.AddTransient<IPostService, PostService>(); // Create class every req
+builder.Services.AddTransient<IForumService, ForumService>(); // Create class every req
 
 builder.Services.AddTransient<IPasswordProvider>(
     p => new PasswordProvider("chupiquete")
@@ -75,21 +76,5 @@ public static class ExtensionMethods
             if (n == number)
                 return true;
         return false;
-    }
-
-    public static ForumDTO? ToDTO(this Forum f, CrowdfyContext context)
-    {
-        var query = from forums in context.Forums
-                    where forums.Id == f.Id
-                    join authors in context.Users
-                    on forums.Creator equals authors.Id
-                    select new ForumDTO(
-                        authors.Username,
-                        forums.CreatedAt,
-                        forums.Title,
-                        forums.Description,
-                        forums.Photo
-                    );
-        return query.FirstOrDefault();
     }
 }

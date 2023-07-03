@@ -26,6 +26,9 @@ export class MainComponent
       mail: '',
       isAuth: 0
     };
+
+    filters: string = '';
+
     
     constructor(
       private service: PostService,
@@ -39,18 +42,25 @@ export class MainComponent
         ).subscribe(
         x => this.user = x
       )
+
+      //this.filters = this.getFiltersString();
       
-      this.update(this.pageNumber);
+      this.update(this.filters, this.pageNumber);
     }
 
-    update(page : number)
+    update(filters: string, page: number)
     {
-      this.service.getPage(page)
+      this.service.getPage(filters, page)
         .subscribe(x => 
           x.forEach(e => this.posts.push(e))
         )
       console.log(this.posts)
       
       this.pageNumber += 1;
+    }
+
+    getFiltersString()
+    {
+      
     }
 }

@@ -64,10 +64,10 @@ public class ForumService : IForumService
         return query.ToListAsync();
     }
 
-    public Task<List<ForumDTO>> GetSubscribedForums(UserDTO user)
+    public Task<List<ForumDTO>> GetSubscribedForums(int userId)
     {
         var query = from uXf in this.context.UserXforums
-                    where uXf.Id == user.Id
+                    where uXf.Id == userId
                     join f in this.context.Forums
                         on uXf.IdForum equals f.Id
                     join u in this.context.Users

@@ -12,6 +12,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { LoginComponent } from './login/login.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatSelectModule} from '@angular/material/select';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 /* FROM ANGULAR MATERIAL */
 
 sessionStorage.setItem("userId", '2');
@@ -33,6 +36,9 @@ const routes: Routes = [
     MatBadgeModule,
     MatInputModule,
     MatListModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatAutocompleteModule,
   ],
   exports: [RouterModule]
 })

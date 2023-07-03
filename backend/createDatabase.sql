@@ -37,3 +37,18 @@ CREATE TABLE dbo.posts (
 ALTER TABLE dbo.posts
 	ADD IdPost INT DEFAULT(NULL), FOREIGN KEY (IdPost)
 		REFERENCES dbo.posts(Id)
+
+
+--? SENHA DO SUPER USER
+-- leonardofalas
+
+INSERT INTO dbo.users (Completename, Username, Photo, BornDate, Mail, isAuth, Salt, HashCode) VALUES (
+	'leonardo falango',
+	'falas',
+	'https://media.licdn.com/dms/image/C4D03AQE1Rm0AGcCSUw/profile-displayphoto-shrink_800_800/0/1628694636268?e=2147483647&v=beta&t=lJqAUeWNtbFak8pufZTkyXT4bbAnDYXCsI2BsZAFA_8',
+	GETDATE(),
+	'leo_falango@hotmail.com',
+	1,
+	'lInDaODeMaIs',
+	'22d092102e95f74e322942f4e0ed70b50fb2f333faaf2089fcd1115e55c63aa7'
+)

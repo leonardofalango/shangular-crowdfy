@@ -11,6 +11,10 @@ import { ForumService } from 'src/services/ForumService';
 import { Post } from 'src/services/Post';
 import { FormsModule } from '@angular/forms'
 import { PostService } from 'src/services/PostService';
+import { UserService } from 'src/services/UserService';
+import { User } from 'src/services/User';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router, RouterLink } from '@angular/router';
 
 
 @Component({
@@ -32,7 +36,10 @@ export class InnerModalComponent
   implements OnInit{
   constructor(
     private service: ForumService,
-    private postService: PostService) {  }
+    private postService: PostService,
+    private userService: UserService,
+    private router: Router
+    ) {  }
 
 
   myControl = new FormControl<string | Forum>('');
@@ -40,7 +47,9 @@ export class InnerModalComponent
   
 
   filteredOptions!: Observable<Forum[]>;
-  userId: string | null = sessionStorage.getItem("userId");
+
+  //! USER ID
+  userId: string = '1';
 
   selectOption: string | null = null;
 
@@ -60,7 +69,26 @@ export class InnerModalComponent
 
 
   ngOnInit() {
-    this.service.getSubscribedForums(this.userId).subscribe(x => this.options = x);
+    const jwt: string | null = sessionStorage.getItem('jwt');
+
+    this.userService.validate(jwt)
+      .subscribe({
+        next: (res: User) => {
+          console.log('logado!')
+          this.post.authorName = res.username
+        },
+        error: (res : HttpErrorResponse) => {
+          this.router.navigate(["/login"])
+        }
+      })
+
+    this.service.getAll()
+      .subscribe(
+        subscribedForumList =>
+        this.options = subscribedForumList
+      );
+
+
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -68,6 +96,9 @@ export class InnerModalComponent
         return name ? this._filter(name as string) : this.options.slice();
       }),
     );
+
+
+    this.userService.validate
   }
 
   displayFn(user: Forum): string {
@@ -81,14 +112,11 @@ export class InnerModalComponent
   }
 
   pub(): void {
-    this.service
-      .getForumByName(this.selectOption)
-      .subscribe(x =>
-      {
-        this.post.forumName = x.title
-        
-        this.postService
-          .postPost(this.post)
-      })
+    console.log(
+      this.post
+    )
+    this.postService.postPost(
+      this.post
+    )
   }
 }

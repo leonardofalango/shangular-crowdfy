@@ -1,0 +1,13 @@
+<mat-form-field class="full">
+    <input type="text" placeholder="Forums Visíveis" aria-label="Select Users" matInput [matAutocomplete]="auto" [formControl]="forumControl">
+</mat-form-field>
+
+<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+    <mat-option *ngFor="let forum of subscribedForums" [value]="selectedForums">
+        <div (click)="optionClicked($event, forum)">
+            <mat-checkbox [checked]="forum.selected" (change)="toggleSelection(forum)" (click)="$event.stopPropagation()">
+                {{ forum.title }}
+            </mat-checkbox>
+        </div>
+    </mat-option>
+</mat-autocomplete>

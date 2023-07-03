@@ -1,0 +1,73 @@
+.login {
+    background-color: var(--background-color);
+    height: 100%;
+    width: 50%;
+    padding: 10px;
+    transition: all .3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.login:focus-within {
+    background-color: var(--primary-colorh1);
+    width: 100%;
+}
+.login:focus-within + .signin {
+    background-color: var(--background-color);
+}
+
+.signin {
+    background-color: var(--primary-colorh5);
+    height: 100%;
+    width: 50%;
+    transition: all .3s;
+    padding: 10px;
+}
+.signin:focus-within {
+    background-color: var(--primary-colorh1);
+    width: 100%;
+}
+.signin:focus-within + .login {
+    background-color: var(--primary-colorh1);
+}
+
+.flexin {
+    display: flex;
+    width: 55vw;
+    height: 55vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputs {
+    width: 100%;
+}
+
+.completeName {
+    display: flex;
+}
+
+.view {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.img-input {
+    width: 50%;
+    height: 100%;
+    border-radius: 50%;
+
+}
+
+.img-container {
+    width: 100%;
+    height: 25vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

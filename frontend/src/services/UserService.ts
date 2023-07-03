@@ -17,4 +17,9 @@ export class UserService {
     {
         return this.http.get<User>("http://localhost:5177/user/" + id)
     }
+
+    validate(jwt: string | null)
+    {
+        return this.http.post<User>("http://localhost:5177/user/validate", jwt)
+    }
 }
