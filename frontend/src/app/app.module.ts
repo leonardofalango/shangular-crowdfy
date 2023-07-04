@@ -38,6 +38,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { LoginComponent } from './login/login.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestComponent } from './test/test.component';
+import { UploaderFortunatoComponent } from './uploader-fortunato/uploader-fortunato.component';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { TestComponent } from './test/test.component';
     SignInComponent,
     LoginComponent,
     TestComponent,
+    UploaderFortunatoComponent,
   ],
   imports: [
     BrowserModule,
