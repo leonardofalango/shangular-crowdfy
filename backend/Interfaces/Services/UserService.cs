@@ -30,19 +30,42 @@ public class UserService : IUserService
                 user.IsAuth
             )).ToListAsync();
 
-    public async Task<string?> GetJwt(LoginDTO log)
+    public async Task<UserDTO?> GetUserByLogin(LoginDTO log)
     {
-        string? salt = this.context.Users.FirstOrDefault(
+        User? user = this.context.Users.FirstOrDefault(
             user => 
-                user.Username == log.login || user.Mail == log.login
-        ).Salt;
+                user.Username == log.Login || user.Mail == log.Login
+        );
 
-        if (salt is null)
+        if (user == null)
             return null;
-        
-        string passwordSalt = log.password + salt;
 
-        return ApplyHash(passwordSalt, new Base64SHA256());
+        
+        string passwordSalt = log.Password + user.Salt;
+
+        string pass = ApplyHash(passwordSalt, new Base64SHA256());
+
+        System.Console.WriteLine(pass);
+
+        User? u = await this.context
+            .Users
+            .Where(
+                u => u.Id == user.Id
+            )
+            .FirstOrDefaultAsync(
+                user =>
+                user.HashCode == pass
+            );
+
+        
+        return new UserDTO(
+            u.Completename,
+            u.Username,
+            u.Photo,
+            u.BornDate,
+            u.Mail,
+            u.IsAuth
+        );
     }
 
     public Task<List<UserDTO>> GetPage(int page, int itemPerPage = 10)

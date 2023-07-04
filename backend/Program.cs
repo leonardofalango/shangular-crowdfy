@@ -35,12 +35,12 @@ builder.Services.AddTransient<IRepository<User>, RepoUser>(); // Create class ev
 builder.Services.AddTransient<IUserService, UserService>(); // Create class every req
 builder.Services.AddTransient<IPostService, PostService>(); // Create class every req
 builder.Services.AddTransient<IForumService, ForumService>(); // Create class every req
+builder.Services.AddTransient<IJwtService, JwtService>();
 
 builder.Services.AddTransient<IPasswordProvider>(
     p => new PasswordProvider("chupiquete")
 );
 
-builder.Services.AddTransient<IJwtService, JwtService>();
 
 var app = builder.Build();
 

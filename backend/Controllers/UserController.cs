@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using backend.Model.Interfaces;
 using backend.DataTransferObject;
+using security_jwt;
 
 namespace backend.Controllers;
 
@@ -41,17 +42,25 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<string?>> Login(
+    public async Task<ActionResult<string>> Login(
         [FromBody] LoginDTO login,
-        [FromServices] IUserService userRepo
+        [FromServices] IUserService userRepo,
+        [FromServices] IJwtService jwtService
     )
     {
-        
-        string? jwt = await userRepo.GetJwt(login);
+        #pragma warning disable
 
-        if (jwt is null)
+        UserDTO? user = await userRepo.GetUserByLogin(login);
+        
+        if (user == null)
+            return StatusCode(404);
+
+        string jwt = jwtService.GetToken<UserDTO>(user);
+
+        if (jwt == "")
             return StatusCode(401);
         
-        return jwt;
+        
+        return Ok(jwt);
     }
 }
