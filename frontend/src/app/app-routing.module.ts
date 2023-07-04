@@ -12,9 +12,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { LoginComponent } from './login/login.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatSelectModule} from '@angular/material/select';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 /* FROM ANGULAR MATERIAL */
 
 sessionStorage.setItem("userId", '2');
@@ -22,7 +25,7 @@ sessionStorage.setItem("userId", '2');
 const routes: Routes = [
   {path: "", component: MainComponent},
   {path: "login", component: LoginComponent},
-  {path: "signIn", component: SignInComponent}
+  {path: "signup", component: SignInComponent}
 ];
 
 @NgModule({
@@ -39,6 +42,8 @@ const routes: Routes = [
     MatCheckboxModule,
     MatSelectModule,
     MatAutocompleteModule,
+    MatNativeDateModule,
+    MatDatepickerModule
   ],
   exports: [RouterModule]
 })

@@ -22,4 +22,9 @@ export class UserService {
     {
         return this.http.post<User>("http://localhost:5177/user/validate", jwt)
     }
+
+    createUser(user: User)
+    {
+        return this.http.post<string>("http://localhost:5177/user/add", user)
+    }
 }

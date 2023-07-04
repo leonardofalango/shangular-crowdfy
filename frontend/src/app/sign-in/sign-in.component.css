@@ -1,0 +1,33 @@
+.container {
+    width: 35vw;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.name-surname {
+    display: flex;
+    gap: 15px;
+}
+
+.input-field {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+.width50 {
+    width: 50%;
+}
+
+.datepicker {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.width70 {
+    width: 40%;
+}

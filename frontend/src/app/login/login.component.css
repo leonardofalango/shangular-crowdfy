@@ -1,43 +1,23 @@
+/** -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= LOG IN -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
+
 .login {
     background-color: var(--background-color);
-    height: 100%;
-    width: 50%;
-    padding: 10px;
+    width: 28vw;
+    padding: 70px;
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
     transition: all .3s;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-}
-.login:focus-within {
-    background-color: var(--primary-colorh1);
-    width: 100%;
-}
-.login:focus-within + .signin {
-    background-color: var(--background-color);
+    border-radius: 15px;
+    margin-bottom: 25px;
 }
 
-.signin {
-    background-color: var(--primary-colorh5);
-    height: 100%;
-    width: 50%;
-    transition: all .3s;
-    padding: 10px;
-}
-.signin:focus-within {
-    background-color: var(--primary-colorh1);
-    width: 100%;
-}
-.signin:focus-within + .login {
-    background-color: var(--primary-colorh1);
-}
+/** -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= LOG IN -=-=-=-=-=-=-=-=-=-=-=-=-=-=-= */
 
-.flexin {
-    display: flex;
-    width: 55vw;
-    height: 55vh;
-    justify-content: center;
-    align-items: center;
-}
 
 .inputs {
     width: 100%;
@@ -70,4 +50,28 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.img-login {
+    margin-bottom: 25px;
+}
+
+.create-account {
+    color: var(--primary-colorh4);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+a {
+    color: var(--primary-colorh1);
+    transition: all .1s;
+}
+
+a:active {
+    color: var(--primary-colorh3);
+}
+
+a:hover {
+    color: var(--primary-colorh2);
 }

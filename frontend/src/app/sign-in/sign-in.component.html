@@ -1,39 +1,93 @@
+<div class="container">
+  <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+    {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+  </button>
+  <mat-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
 
-<mat-stepper #stepper>
-    <mat-step [stepControl]="firstFormGroup" errorMessage="Name is required.">
-      <!-- <form [formGroup]="firstFormGroup"> -->
+
+      <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Fill out your name</ng-template>
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-        </mat-form-field>
+
+        <div class="input-field">
+          <div class="name-surname">
+            <mat-form-field class="width50">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="First name" formControlName="firstCtrl" required [(ngModel)]="name">
+            </mat-form-field>
+            <mat-form-field class="width50">
+              <mat-label>Last name</mat-label>
+              <input matInput placeholder="First name" formControlName="firstCtrl" required [(ngModel)]="lastname">
+            </mat-form-field>
+          </div>
+
+          <mat-form-field class="width100">
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="Create an username" formControlName="firstCtrl" required [(ngModel)]="username">
+          </mat-form-field>
+
+          <mat-form-field class="width100">
+            <mat-label>E-mail</mat-label>
+            <input matInput placeholder="Your email" formControlName="firstCtrl" required [(ngModel)]="mail">
+          </mat-form-field>
+        </div>
+
+
         <div>
-          <p>Go to a different step to see the error state</p>
           <button mat-button matStepperNext>Next</button>
         </div>
-      <!-- </form> -->
+      </form>
+
+
     </mat-step>
-    <mat-step [stepControl]="secondFormGroup" errorMessage="Address is required.">
-      <!-- <form [formGroup]="secondFormGroup"> -->
-        <ng-template matStepLabel>Fill out your address</ng-template>
-        <mat-form-field>
-          <mat-label>Address</mat-label>
-          <input matInput placeholder="Ex. 1 Main St, New York, NY" formControlName="secondCtrl"
-                 required>
-        </mat-form-field>
+    <mat-step [stepControl]="secondFormGroup" label="Create a password">
+
+      <div class="input-field">
+          <mat-form-field>
+            <mat-label>Create your password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" [(ngModel)]="password">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+          </mat-form-field>
+  
+          <mat-form-field>
+            <mat-label>Repeat your password</mat-label>
+            <input matInput placeholder="Last name, First name" formControlName="confirmPassword" type="password">
+          </mat-form-field>
+  
+          <div *ngIf="passwordMatchError">
+            Password does not match
+          </div>
+
+      </div>
+      
+      
+
         <div>
-          <p>Go to a different step to see the error state</p>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </div>
-      <!-- </form> -->
+
+
     </mat-step>
     <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
+      <ng-template matStepLabel>Profile Picture</ng-template>
+      
+      <div class="datepicker">
+        <mat-form-field class="width70">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="borndate">
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <button mat-raised-button (click)="picker.open()">Open</button>
+      </div>
+
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
+        <button mat-button (click)="sendUser()">Create Account</button>
       </div>
     </mat-step>
   </mat-stepper>
+</div>
+
