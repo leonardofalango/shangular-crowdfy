@@ -45,7 +45,7 @@
       <div class="input-field">
           <mat-form-field>
             <mat-label>Create your password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" [(ngModel)]="user.password">
+            <input matInput type="{{hide == true? 'password' : 'text'}}" [(ngModel)]="password">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
@@ -56,10 +56,6 @@
             <input matInput placeholder="Password" formControlName="confirmPassword" type="password">
           </mat-form-field>
   
-          <div *ngIf="passwordMatchError">
-            Password does not match
-          </div>
-
       </div>
       
       

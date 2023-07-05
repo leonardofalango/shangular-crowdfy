@@ -19,6 +19,7 @@ public class RepoUser : IRepository<User>
             obj.Salt = new Security
                 .TextSalt()
                 .GetSalt();
+            
             string passwordSalt = obj.HashCode + obj.Salt;
 
             obj.HashCode =  ApplyHash(passwordSalt, new Base64SHA256());
@@ -34,9 +35,8 @@ public class RepoUser : IRepository<User>
     }
 
     private string? ApplyHash(string passwordSalt, Base64SHA256 base64SHA256)
-    {
-        throw new NotImplementedException();
-    }
+        => base64SHA256.ToHash(passwordSalt);
+    
 
     public async Task<bool> Delete(User obj)
     {

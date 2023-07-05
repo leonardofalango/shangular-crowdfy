@@ -48,7 +48,6 @@ public class PostsController : ControllerBase
     )
     {
         int[] filterArr = filters
-            .Substring(0, filters.IndexOf("+"))
             .Split(",")
             .Select(
                 filter => int.Parse(filter)

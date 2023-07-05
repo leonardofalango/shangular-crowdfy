@@ -8,23 +8,6 @@ import { UserPassword } from 'src/services/User';
 import { UserService } from 'src/services/UserService';
 
 
-
-class CustomValidator {
-  static MatchValidator(source: string, target: string): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const sourceCtrl = control.get(source)
-      const targetCtrl = control.get(target)
-
-      console.log(sourceCtrl === null);
-      console.log(sourceCtrl && sourceCtrl.value);
-
-      return sourceCtrl && targetCtrl && sourceCtrl.value !== targetCtrl.value
-        ? { mismatch: true }
-        : null
-    }
-  }
-}
-
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
@@ -50,6 +33,7 @@ export class SignInComponent {
   hide: boolean = true
   name: string = ''
   lastName: string = ''
+  password: string = ''
 
   user : UserPassword =
   {
@@ -65,7 +49,7 @@ export class SignInComponent {
 
   sendUser() {
     this.user.completeName = this.name + ' ' + this.lastName
-    this.user.password = this.secondFormGroup.get('password')?.value ?? "";
+    this.user.password = this.password
 
     console.log(this.user);
     
@@ -90,10 +74,4 @@ export class SignInComponent {
     private service: UserService,
     private router: Router
     ) {  }
-  get passwordMatchError() {
-    return (
-      this.secondFormGroup.getError('mismatch') &&
-      this.secondFormGroup.get('confirmPassword')?.touched
-    );
-  }
 }

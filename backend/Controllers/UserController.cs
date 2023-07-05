@@ -28,13 +28,11 @@ public class UserController : ControllerBase
         userToInsert.Mail = user.Mail;
         userToInsert.Photo = user.Photo;
         userToInsert.HashCode = user.Password;
+        userToInsert.Username = user.Username;
 
-        Console.WriteLine("User");
-        Console.WriteLine(userToInsert.Completename);
-        Console.WriteLine(userToInsert.HashCode);
-        Console.WriteLine(userToInsert.Photo);
+        bool isGuti = await userRepo.Create(userToInsert);
 
-        if (!await userRepo.Create(userToInsert))
+        if (!isGuti)
             return StatusCode(503);
         
         return Ok();
@@ -83,14 +81,5 @@ public class UserController : ControllerBase
     public async Task<ActionResult<UserDTO>> ValidateTokenReturnUser(
         [FromBody] Jwt token,
         [FromServices] IJwtService jwt
-    )
-    {
-        Console.WriteLine(token.Token);
-        var x= jwt.Validate<UserDTO>(token.Token);
-        System.Console.WriteLine(x.Completename);
-        System.Console.WriteLine(x.Username);
-        System.Console.WriteLine(x.Photo);
-
-        return Ok(x);
-    }
+    ) => Ok(jwt.Validate<UserDTO>(token.Token));
 }

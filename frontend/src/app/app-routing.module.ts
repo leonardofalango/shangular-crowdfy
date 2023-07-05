@@ -20,7 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 
 /* FROM ANGULAR MATERIAL */
 
-sessionStorage.setItem("userId", '2');
+sessionStorage.setItem("userId", '1');
 
 const routes: Routes = [
   {path: "", component: MainComponent},

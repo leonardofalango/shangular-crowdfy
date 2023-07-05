@@ -6,7 +6,7 @@ public class TextSalt : ISalt
     private StreamReader sr;
     public string GetSalt()
     {
-        sr = new StreamReader("../../Salts.txt");
+        sr = new StreamReader("Salts.txt");
 
         int counter = 0;
         string line = string.Empty;

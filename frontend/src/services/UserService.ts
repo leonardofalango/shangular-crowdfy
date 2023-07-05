@@ -17,7 +17,7 @@ export class UserService {
 
     getUser(id: string | null)
     {
-        return this.http.get<User>("http://localhost:5177/user/" + id)
+        return this.http.get<User>("http://localhost:5177/user/getById/" + id)
     }
 
     createUser(user: UserPassword)
