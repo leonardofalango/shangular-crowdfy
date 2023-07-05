@@ -1,8 +1,10 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { HttpErrorResponse } from '@angular/common/http';
+import { identifierName } from '@angular/compiler';
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/services/User';
+import { UserPassword } from 'src/services/User';
 import { UserService } from 'src/services/UserService';
 
 
@@ -12,6 +14,9 @@ class CustomValidator {
     return (control: AbstractControl): ValidationErrors | null => {
       const sourceCtrl = control.get(source)
       const targetCtrl = control.get(target)
+
+      console.log(sourceCtrl === null);
+      console.log(sourceCtrl && sourceCtrl.value);
 
       return sourceCtrl && targetCtrl && sourceCtrl.value !== targetCtrl.value
         ? { mismatch: true }
@@ -36,43 +41,46 @@ export class SignInComponent {
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
   });
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
+  secondFormGroup = this._formBuilder.group(
+  {}
+    
+  );
   isLinear = false;
 
-  hide: boolean = false
-
-  
+  hide: boolean = true
   name: string = ''
-  lastname: string = ''
-  username: string = ''
-  mail: string = ''
-  borndate: string = ''
-  photo: string = ''
-  password: string = ''
+  lastName: string = ''
+
+  user : UserPassword =
+  {
+    id: 0,
+    completeName: '',
+    username: '',
+    photo: '',
+    bornDate: new Date(),
+    mail: '',
+    isAuth: 0,
+    password: ''
+  }
 
   sendUser() {
-    const user: User = 
-    {
-      id: 0,
-      completeName: this.name! + this.lastname!,
-      username: this.username!,
-      photo: this.photo!,
-      bornDate: new Date(this.borndate),
-      mail: this.mail,
-      isAuth: 0
-    }
+    this.user.completeName = this.name + ' ' + this.lastName
+    this.user.password = this.secondFormGroup.get('password')?.value ?? "";
 
-    console.log(user);
+    console.log(this.user);
     
 
-    this.service.createUser(user).subscribe(
-      res => {
+    this.service.createUser(this.user).subscribe({
+      next: (res : string) => {
         console.log(res)
+        alert('Success')
         this.router.navigate(['login'])
+      },
+      error: (err: HttpErrorResponse) => {
+        alert(err.message)
+        console.error(err)
       }
-    )
+    })
   }
   
   
@@ -88,12 +96,4 @@ export class SignInComponent {
       this.secondFormGroup.get('confirmPassword')?.touched
     );
   }
-
-  profileForm = new FormGroup(
-    {
-      password: new FormControl('', [Validators.required]),
-      confirmPassword: new FormControl('', [Validators.required]),
-    },
-    [CustomValidator.MatchValidator('password', 'confirmPassword')]
-  );
 }

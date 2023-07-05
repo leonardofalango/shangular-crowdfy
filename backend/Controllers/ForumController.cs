@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using backend.Model.Services;
 using backend.Model.Interfaces;
-using security_jwt;
+using Security_jwt;
 using backend.DataTransferObject;
 
 namespace backend.Controllers;

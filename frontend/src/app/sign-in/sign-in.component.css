@@ -25,9 +25,36 @@
 .datepicker {
     display: flex;
     gap: 15px;
+    margin: auto;
     align-items: center;
+    justify-content: center;
 }
 
 .width70 {
     width: 40%;
+}
+
+.ints {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.username {
+    color: var(--background-color);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.last-buttons {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.btn-create-account {
+    background-color: var(--primary-colorh1);
+    transition: all .3s;
+}
+.btn-create-account:hover {
+    background-color: var(--primary-colorh2);
 }

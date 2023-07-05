@@ -71,17 +71,6 @@ export class InnerModalComponent
   ngOnInit() {
     const jwt: string | null = sessionStorage.getItem('jwt');
 
-    this.userService.validate(jwt)
-      .subscribe({
-        next: (res: User) => {
-          console.log('logado!')
-          this.post.authorName = res.username
-        },
-        error: (res : HttpErrorResponse) => {
-          this.router.navigate(["/login"])
-        }
-      })
-
     this.service.getAll()
       .subscribe(
         subscribedForumList =>
@@ -97,8 +86,6 @@ export class InnerModalComponent
       }),
     );
 
-
-    this.userService.validate
   }
 
   displayFn(user: Forum): string {

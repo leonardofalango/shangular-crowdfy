@@ -1,9 +1,7 @@
-using security_jwt;
+using Security_jwt;
 using backend.Model;
-using backend.Controllers;
 using backend.Model.Interfaces;
 using backend.Model.Services;
-using backend.DataTransferObject;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,10 +33,8 @@ builder.Services.AddTransient<IRepository<User>, RepoUser>(); // Create class ev
 builder.Services.AddTransient<IUserService, UserService>(); // Create class every req
 builder.Services.AddTransient<IPostService, PostService>(); // Create class every req
 builder.Services.AddTransient<IForumService, ForumService>(); // Create class every req
-builder.Services.AddTransient<IJwtService, JwtService>();
-
-builder.Services.AddTransient<IPasswordProvider>(
-    p => new PasswordProvider("chupiquete")
+builder.Services.AddTransient<IJwtService>(p =>
+    new JwTService(new PasswordProvider("chupiquete"))
 );
 
 

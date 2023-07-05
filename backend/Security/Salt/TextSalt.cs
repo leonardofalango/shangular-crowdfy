@@ -20,6 +20,8 @@ public class TextSalt : ISalt
             counter += 1;
         }
 
-        return line??"";
+        System.Console.WriteLine(line);
+
+        return line!;
     }
 }

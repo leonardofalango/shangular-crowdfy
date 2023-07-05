@@ -3,6 +3,7 @@ import { Post } from '../../services/Post'
 import { PostService } from 'src/services/PostService';
 import { UserService } from '../../services/UserService'
 import { User } from 'src/services/User';
+import { AthenticateService } from 'src/services/AthenticateService';
 
 @Component({
   selector: 'app-main',
@@ -32,9 +33,18 @@ export class MainComponent
     
     constructor(
       private service: PostService,
-      private userService: UserService) { }
+      private userService: UserService,
+      private authenticator: AthenticateService) { }
 
     ngOnInit(): void {
+      console.log("enviando: ");
+      console.log(sessionStorage.getItem('jwtAuthenticator'));
+      
+      this.authenticator.authenticate(
+        sessionStorage.getItem('jwtAuthenticator')
+      )
+
+
       this
         .userService
         .getUser(

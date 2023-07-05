@@ -37,15 +37,13 @@ public class UserService : IUserService
                 user.Username == log.Login || user.Mail == log.Login
         );
 
-        if (user == null)
+        if (user.Salt == null)
             return null;
 
         
         string passwordSalt = log.Password + user.Salt;
 
         string pass = ApplyHash(passwordSalt, new Base64SHA256());
-
-        System.Console.WriteLine(pass);
 
         User? u = await this.context
             .Users
@@ -56,6 +54,9 @@ public class UserService : IUserService
                 user =>
                 user.HashCode == pass
             );
+        
+        if (u == null)
+            return null;
 
         
         return new UserDTO(

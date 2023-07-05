@@ -34,6 +34,6 @@ export class UploaderFortunatoComponent implements
   getImgSrc() {
     if (this.imgUrl !== '') return this.imgUrl;
 
-    return '../assets/camera.png';
+    return '../assets/.png';
   }
 }

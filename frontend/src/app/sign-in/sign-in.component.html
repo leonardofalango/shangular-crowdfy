@@ -17,18 +17,18 @@
             </mat-form-field>
             <mat-form-field class="width50">
               <mat-label>Last name</mat-label>
-              <input matInput placeholder="First name" formControlName="firstCtrl" required [(ngModel)]="lastname">
+              <input matInput placeholder="First name" formControlName="firstCtrl" required [(ngModel)]="lastName">
             </mat-form-field>
           </div>
 
           <mat-form-field class="width100">
             <mat-label>Username</mat-label>
-            <input matInput placeholder="Create an username" formControlName="firstCtrl" required [(ngModel)]="username">
+            <input matInput placeholder="Create an username" formControlName="firstCtrl" required [(ngModel)]="user.username">
           </mat-form-field>
 
           <mat-form-field class="width100">
             <mat-label>E-mail</mat-label>
-            <input matInput placeholder="Your email" formControlName="firstCtrl" required [(ngModel)]="mail">
+            <input matInput placeholder="Your email" formControlName="firstCtrl" required [(ngModel)]="user.mail">
           </mat-form-field>
         </div>
 
@@ -45,15 +45,15 @@
       <div class="input-field">
           <mat-form-field>
             <mat-label>Create your password</mat-label>
-            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide" [(ngModel)]="password">
+            <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" [(ngModel)]="user.password">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
           </mat-form-field>
   
           <mat-form-field>
             <mat-label>Repeat your password</mat-label>
-            <input matInput placeholder="Last name, First name" formControlName="confirmPassword" type="password">
+            <input matInput placeholder="Password" formControlName="confirmPassword" type="password">
           </mat-form-field>
   
           <div *ngIf="passwordMatchError">
@@ -73,19 +73,25 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Profile Picture</ng-template>
-      
-      <div class="datepicker">
-        <mat-form-field class="width70">
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="borndate">
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <button mat-raised-button (click)="picker.open()">Open</button>
+
+      <div class="ints">
+
+        <app-uploader-fortunato></app-uploader-fortunato>
+        <p class="username">@{{user.username}}</p>
+        
+        <div class="datepicker">
+          <mat-form-field class="width70">
+            <mat-label>Choose a date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="user.bornDate">
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <button mat-raised-button (click)="picker.open()">Open</button>
+        </div>
       </div>
 
-      <div>
+      <div class="last-buttons">
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="sendUser()">Create Account</button>
+        <button mat-button (click)="sendUser()" class="btn-create-account" color="warning">Create Account</button>
       </div>
     </mat-step>
   </mat-stepper>

@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using backend.Model.Interfaces;
+using backend.Security.Hash;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Model.Services;
@@ -18,6 +19,9 @@ public class RepoUser : IRepository<User>
             obj.Salt = new Security
                 .TextSalt()
                 .GetSalt();
+            string passwordSalt = obj.HashCode + obj.Salt;
+
+            obj.HashCode =  ApplyHash(passwordSalt, new Base64SHA256());
 
             await this.context.Users.AddAsync(obj);
             await this.context.SaveChangesAsync();
@@ -27,6 +31,11 @@ public class RepoUser : IRepository<User>
             return false;
         }
         return true;
+    }
+
+    private string? ApplyHash(string passwordSalt, Base64SHA256 base64SHA256)
+    {
+        throw new NotImplementedException();
     }
 
     public async Task<bool> Delete(User obj)

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using backend.Model.Interfaces;
 using backend.DataTransferObject;
-using security_jwt;
+using Security_jwt;
 
 namespace backend.Controllers;
 
@@ -16,11 +16,25 @@ public class UserController : ControllerBase
 {
     [HttpPost("add")]
     public async Task<ActionResult> Add(
-        [FromBody] User user,
+        [FromBody] InsertUser user,
         [FromServices] IRepository<User> userRepo
     )
     {
-        if (!await userRepo.Create(user))
+        User userToInsert = new User();
+
+        userToInsert.BornDate = user.BornDate;
+        userToInsert.Completename = user.Completename;
+        userToInsert.IsAuth = user.IsAuth;
+        userToInsert.Mail = user.Mail;
+        userToInsert.Photo = user.Photo;
+        userToInsert.HashCode = user.Password;
+
+        Console.WriteLine("User");
+        Console.WriteLine(userToInsert.Completename);
+        Console.WriteLine(userToInsert.HashCode);
+        Console.WriteLine(userToInsert.Photo);
+
+        if (!await userRepo.Create(userToInsert))
             return StatusCode(503);
         
         return Ok();
@@ -42,7 +56,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<string>> Login(
+    public async Task<ActionResult<Jwt>> Login(
         [FromBody] LoginDTO login,
         [FromServices] IUserService userRepo,
         [FromServices] IJwtService jwtService
@@ -61,6 +75,22 @@ public class UserController : ControllerBase
             return StatusCode(401);
         
         
-        return Ok(jwt);
+        //! return Ok(jwt);
+        return new Jwt(){ Token=jwt };
+    }
+
+    [HttpPost("validateToken")]
+    public async Task<ActionResult<UserDTO>> ValidateTokenReturnUser(
+        [FromBody] Jwt token,
+        [FromServices] IJwtService jwt
+    )
+    {
+        Console.WriteLine(token.Token);
+        var x= jwt.Validate<UserDTO>(token.Token);
+        System.Console.WriteLine(x.Completename);
+        System.Console.WriteLine(x.Username);
+        System.Console.WriteLine(x.Photo);
+
+        return Ok(x);
     }
 }
