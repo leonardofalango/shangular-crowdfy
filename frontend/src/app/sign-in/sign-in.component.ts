@@ -1,8 +1,7 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { HttpErrorResponse } from '@angular/common/http';
-import { identifierName } from '@angular/compiler';
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserPassword } from 'src/services/User';
 import { UserService } from 'src/services/UserService';
@@ -26,8 +25,11 @@ export class SignInComponent {
   });
   secondFormGroup = this._formBuilder.group(
   {}
-    
   );
+
+  backButton = () => {
+    this.router.navigate(['/login'])
+  }
 
   hide: boolean = true
   name: string = ''
@@ -35,6 +37,13 @@ export class SignInComponent {
   password: string = ''
   repPass: string = ''
   noMatchError: boolean = false
+  dateError: boolean = false;
+  noLenghtError: boolean = false;
+
+  nameError = false
+  lastnameError = false
+  usernameError = false
+  mailError = false
 
   user : UserPassword =
   {
@@ -50,18 +59,38 @@ export class SignInComponent {
 
   disabledFirstGroup:boolean = true
   firstGroupCheck = () => {
-    this.disabledFirstGroup = !(this.name != '' && this.lastName != '' && this.user.mail != '' && this.user.username != '')
+    this.mailError = !(this.user.mail.includes("@") && this.user.mail.includes("."))
+    this.nameError = this.name == ''
+    this.lastnameError = this.lastName == ''
+    this.usernameError = this.user.username == ''
+
+    this.disabledFirstGroup = (
+      this.nameError ||
+      this.lastnameError || 
+      this.usernameError ||
+      this.mailError
+    )
   }
 
   disabledSecondGroup:boolean = true
   secundGroupCheck = () => {
-    this.disabledSecondGroup = !(this.password == this.repPass) || (this.password == '' || this.repPass == '') && !(this.disabledFirstGroup)
     this.noMatchError = !(this.password == this.repPass)
+    this.noLenghtError = !(this.password.length >= 8)
+    this.disabledSecondGroup = !(this.password == this.repPass) || (this.password == '' || this.repPass == '') && !(this.disabledFirstGroup) || this.noLenghtError
   }
 
   disabledThirdGroup:boolean = true
   thirdGroupCheck = () => {
-    this.disabledThirdGroup = new Date().getFullYear() - this.user.bornDate.getFullYear() <= 18 && !(this.disabledFirstGroup) && !(this.disabledSecondGroup)
+    this.firstGroupCheck()
+    this.secundGroupCheck()
+
+    
+    this.disabledThirdGroup = ((new Date().getFullYear() - this.user.bornDate.getFullYear()) <= 18) || (this.disabledFirstGroup) || (this.disabledSecondGroup)
+    this.dateError = new Date().getFullYear() - this.user.bornDate.getFullYear() <= 18
+    console.log(
+      this.disabledFirstGroup + ' ' + 
+      this.disabledSecondGroup
+    )
   }
 
   checkPass()

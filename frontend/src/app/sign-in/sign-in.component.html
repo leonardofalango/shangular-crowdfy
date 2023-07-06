@@ -1,5 +1,15 @@
+
 <div class="container">
-  <mat-stepper [linear]="false" #stepper class="background-color">
+  <div class="back-button" (click)="backButton()">
+    <span class="material-symbols-outlined none">
+      arrow_back
+    </span>
+    <p>
+      Voltar para o login!
+    </p>
+  </div>
+
+  <mat-stepper [linear]="true" #stepper class="background-color">
     <mat-step [stepControl]="firstFormGroup">
 
 
@@ -12,11 +22,17 @@
               <mat-label>Name</mat-label>
               <input matInput placeholder="First name" formControlName="firstCtrl" required [(ngModel)]="name"
               (keyup)="firstGroupCheck()">
+              <button mat-icon-button matSuffix disabled="true">
+                <mat-icon class="input-warning">{{nameError ? 'warning' : ''}}</mat-icon>
+              </button>
             </mat-form-field>
             <mat-form-field class="width50">
               <mat-label>Last name</mat-label>
               <input matInput placeholder="First name" formControlName="firstCtrl" required [(ngModel)]="lastName"
               (keyup)="firstGroupCheck()">
+              <button mat-icon-button matSuffix disabled="true">
+                <mat-icon class="input-warning">{{lastnameError ? 'warning' : ''}}</mat-icon>
+              </button>
             </mat-form-field>
           </div>
 
@@ -24,12 +40,18 @@
             <mat-label>Username</mat-label>
             <input matInput placeholder="Create an username" formControlName="firstCtrl" required [(ngModel)]="user.username"
             (keyup)="firstGroupCheck()">
+            <button mat-icon-button matSuffix disabled="true">
+              <mat-icon class="input-warning">{{usernameError ? 'warning' : ''}}</mat-icon>
+            </button>
           </mat-form-field>
 
           <mat-form-field class="width100">
             <mat-label>E-mail</mat-label>
             <input matInput placeholder="Your email" formControlName="firstCtrl" required [(ngModel)]="user.mail"
             (keyup)="firstGroupCheck()">
+            <button mat-icon-button matSuffix disabled="true">
+              <mat-icon class="input-warning">{{mailError ? 'warning' : ''}}</mat-icon>
+            </button>
           </mat-form-field>
         </div>
 
@@ -46,8 +68,8 @@
     <mat-step [stepControl]="secondFormGroup" label="Create a password">
 
       <div class="input-field">
-        <div class="noMatchError" *ngIf="noMatchError">
-          Passwords don't matches
+        <div class="noMatchError" *ngIf="noLenghtError || noMatchError">
+          {{noLenghtError? 'Your password must be more than 7 chars': 'Passwords dont matches'}}
         </div>
           <mat-form-field>
             <mat-label>Create your password</mat-label>
@@ -60,8 +82,8 @@
           <mat-form-field>
             <mat-label>Repeat your password</mat-label>
             <input matInput placeholder="Password" type="password" [(ngModel)]="repPass" (keyup)="secundGroupCheck()">
-            <button mat-icon-button matSuffix disabled="true" style="color: red;">
-              <mat-icon>{{noMatchError ? 'warning' : ''}}</mat-icon>
+            <button mat-icon-button matSuffix disabled="true">
+              <mat-icon class="input-warning">{{noMatchError ? 'warning' : ''}}</mat-icon>
             </button>
           </mat-form-field>
   
@@ -86,13 +108,17 @@
         <app-uploader-fortunato></app-uploader-fortunato>
         <p class="username">@{{user.username}}</p>
         
-        <div class="datepicker">
+        <div class="datepicker {{dateError? 'warning' : ''}}">
           <mat-form-field class="width70">
             <mat-label>Choose a date</mat-label>
             <input matInput [matDatepicker]="picker" [(ngModel)]="user.bornDate" (dateChange)="thirdGroupCheck()">
             <mat-datepicker #picker></mat-datepicker>
+            
           </mat-form-field>
           <button mat-raised-button (click)="picker.open()">Open</button>
+          <button mat-icon-button matSuffix disabled="true">
+            <mat-icon class="input-warning">{{dateError ? 'warning' : ''}}</mat-icon>
+          </button>
         </div>
       </div>
 
