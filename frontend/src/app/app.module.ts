@@ -31,6 +31,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 // ! Angular Material
 
 import { HttpClientModule } from '@angular/common/http';
@@ -39,6 +41,7 @@ import { LoginComponent } from './login/login.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestComponent } from './test/test.component';
 import { UploaderFortunatoComponent } from './uploader-fortunato/uploader-fortunato.component';
+import { SearchPageComponent } from './search-page/search-page.component';
 
 
 @NgModule({
@@ -59,6 +62,7 @@ import { UploaderFortunatoComponent } from './uploader-fortunato/uploader-fortun
     LoginComponent,
     TestComponent,
     UploaderFortunatoComponent,
+    SearchPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -81,7 +85,9 @@ import { UploaderFortunatoComponent } from './uploader-fortunato/uploader-fortun
     MatSelectModule,
     MatAutocompleteModule,
     MatNativeDateModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    NgxSpinnerModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

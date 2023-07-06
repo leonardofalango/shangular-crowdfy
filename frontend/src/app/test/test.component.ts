@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Forum } from 'src/services/Forum';
 import { ForumService } from 'src/services/ForumService';
+import { PostService } from 'src/services/PostService';
 
 
 /**
@@ -15,7 +16,13 @@ import { ForumService } from 'src/services/ForumService';
 })
 export class TestComponent implements OnInit {
 
-  constructor(private forumService: ForumService) { }
+  constructor(
+    private forumService: ForumService,
+    private postService: PostService
+  ) { }
+
+  filterString: string = ''
+  filters : string = ''
 
   forumControl = new FormControl();
 
@@ -84,4 +91,12 @@ export class TestComponent implements OnInit {
     this.forumControl.setValue(this.selectedForums);
   }
 
+  filterEndPoint = () => {
+    
+    console.log(this.filters)
+    
+    // this.postService.getPage(
+    //   this.filterString, 0
+    // )
+  }
 }

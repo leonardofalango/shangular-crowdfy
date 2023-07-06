@@ -12,9 +12,7 @@ import { Post } from 'src/services/Post';
 import { FormsModule } from '@angular/forms'
 import { PostService } from 'src/services/PostService';
 import { UserService } from 'src/services/UserService';
-import { User } from 'src/services/User';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({

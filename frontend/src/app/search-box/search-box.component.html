@@ -1,1 +1,8 @@
-search-box works!
+<div class="search-box">
+    <input type="text" class="search-text" placeholder="Buscar..." [(ngModel)]="searchText"/>
+    <div class="search-btn" (click)="search()">
+        <span class="material-symbols-outlined">
+            search
+        </span>
+    </div>
+</div>

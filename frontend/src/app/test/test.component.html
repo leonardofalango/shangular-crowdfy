@@ -5,7 +5,8 @@
 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
     <mat-option *ngFor="let forum of subscribedForums" [value]="selectedForums">
         <div (click)="optionClicked($event, forum)">
-            <mat-checkbox [checked]="forum.selected" (change)="toggleSelection(forum)" (click)="$event.stopPropagation()">
+            <mat-checkbox [checked]="forum.selected" (change)="toggleSelection(forum)" (click)="$event.stopPropagation()"
+            (change)="filterEndPoint()" [(ngModel)]="filters">
                 {{ forum.title }}
             </mat-checkbox>
         </div>

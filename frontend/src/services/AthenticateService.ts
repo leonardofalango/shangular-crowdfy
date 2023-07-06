@@ -30,6 +30,9 @@ export class AthenticateService {
         .subscribe({
             next: (res : User) => {
                 this.user = res
+
+                sessionStorage.setItem("userId", res.id.toString())
+
                 return this.user
             },
             error: (err : HttpErrorResponse) => {

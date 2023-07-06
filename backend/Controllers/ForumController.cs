@@ -117,4 +117,35 @@ public class ForumController : ControllerBase
         return Ok(forums);
     }
 
+    [HttpGet("searchByName/{name}")]
+    public async Task<ActionResult<List<ForumDTO>>> SearchByForum(
+        string name,
+        [FromServices] IForumService forumService
+    )
+    {
+        List<ForumDTO> forums = await forumService.GetByName(name);
+
+        if (forums.Count == 0)
+        {
+            return NotFound();
+        }
+
+        return Ok(forums);
+    }
+
+    [HttpGet("getSubscribedForums/{idUser}")]
+    public async Task<ActionResult<List<ForumDTO>>> GetSubscribedForums(
+        int idUser,
+        [FromServices] IForumService forumService
+    )
+    {
+        List<ForumDTO> subscribedForums = await forumService.GetSubscribedForums(idUser);
+        
+        if (subscribedForums.Count == 0)
+        {
+            return NotFound();
+        }
+        return Ok(subscribedForums);
+    }
+
 }
