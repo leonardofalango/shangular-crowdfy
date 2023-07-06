@@ -1,8 +1,5 @@
 <div class="container">
-  <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
-    {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
-  </button>
-  <mat-stepper [linear]="isLinear" #stepper>
+  <mat-stepper [linear]="false" #stepper class="background-color">
     <mat-step [stepControl]="firstFormGroup">
 
 
@@ -13,28 +10,34 @@
           <div class="name-surname">
             <mat-form-field class="width50">
               <mat-label>Name</mat-label>
-              <input matInput placeholder="First name" formControlName="firstCtrl" required [(ngModel)]="name">
+              <input matInput placeholder="First name" formControlName="firstCtrl" required [(ngModel)]="name"
+              (keyup)="firstGroupCheck()">
             </mat-form-field>
             <mat-form-field class="width50">
               <mat-label>Last name</mat-label>
-              <input matInput placeholder="First name" formControlName="firstCtrl" required [(ngModel)]="lastName">
+              <input matInput placeholder="First name" formControlName="firstCtrl" required [(ngModel)]="lastName"
+              (keyup)="firstGroupCheck()">
             </mat-form-field>
           </div>
 
           <mat-form-field class="width100">
             <mat-label>Username</mat-label>
-            <input matInput placeholder="Create an username" formControlName="firstCtrl" required [(ngModel)]="user.username">
+            <input matInput placeholder="Create an username" formControlName="firstCtrl" required [(ngModel)]="user.username"
+            (keyup)="firstGroupCheck()">
           </mat-form-field>
 
           <mat-form-field class="width100">
             <mat-label>E-mail</mat-label>
-            <input matInput placeholder="Your email" formControlName="firstCtrl" required [(ngModel)]="user.mail">
+            <input matInput placeholder="Your email" formControlName="firstCtrl" required [(ngModel)]="user.mail"
+            (keyup)="firstGroupCheck()">
           </mat-form-field>
         </div>
 
 
         <div>
-          <button mat-button matStepperNext>Next</button>
+          <button class="next-button" mat-button matStepperNext disabled="{{disabledFirstGroup}}">
+            Next
+          </button>
         </div>
       </form>
 
@@ -43,9 +46,12 @@
     <mat-step [stepControl]="secondFormGroup" label="Create a password">
 
       <div class="input-field">
+        <div class="noMatchError" *ngIf="noMatchError">
+          Passwords don't matches
+        </div>
           <mat-form-field>
             <mat-label>Create your password</mat-label>
-            <input matInput type="{{hide == true? 'password' : 'text'}}" [(ngModel)]="password">
+            <input matInput type="{{hide == true? 'password' : 'text'}}" [(ngModel)]="password" (keyup)="secundGroupCheck()">
             <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
               <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
@@ -53,7 +59,10 @@
   
           <mat-form-field>
             <mat-label>Repeat your password</mat-label>
-            <input matInput placeholder="Password" formControlName="confirmPassword" type="password">
+            <input matInput placeholder="Password" type="password" [(ngModel)]="repPass" (keyup)="secundGroupCheck()">
+            <button mat-icon-button matSuffix disabled="true" style="color: red;">
+              <mat-icon>{{noMatchError ? 'warning' : ''}}</mat-icon>
+            </button>
           </mat-form-field>
   
       </div>
@@ -62,7 +71,9 @@
 
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperNext disabled="{{disabledSecondGroup}}">
+            Next
+          </button>
         </div>
 
 
@@ -78,7 +89,7 @@
         <div class="datepicker">
           <mat-form-field class="width70">
             <mat-label>Choose a date</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="user.bornDate">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="user.bornDate" (dateChange)="thirdGroupCheck()">
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
           <button mat-raised-button (click)="picker.open()">Open</button>
@@ -87,7 +98,9 @@
 
       <div class="last-buttons">
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="sendUser()" class="btn-create-account" color="warning">Create Account</button>
+        <button mat-button disabled="{{disabledThirdGroup}}" (click)="sendUser()" class="btn-create-account" color="warning">
+          Create Account
+        </button>
       </div>
     </mat-step>
   </mat-stepper>

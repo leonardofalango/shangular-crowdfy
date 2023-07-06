@@ -28,12 +28,13 @@ export class SignInComponent {
   {}
     
   );
-  isLinear = false;
 
   hide: boolean = true
   name: string = ''
   lastName: string = ''
   password: string = ''
+  repPass: string = ''
+  noMatchError: boolean = false
 
   user : UserPassword =
   {
@@ -45,6 +46,29 @@ export class SignInComponent {
     mail: '',
     isAuth: 0,
     password: ''
+  }
+
+  disabledFirstGroup:boolean = true
+  firstGroupCheck = () => {
+    this.disabledFirstGroup = !(this.name != '' && this.lastName != '' && this.user.mail != '' && this.user.username != '')
+  }
+
+  disabledSecondGroup:boolean = true
+  secundGroupCheck = () => {
+    this.disabledSecondGroup = !(this.password == this.repPass) || (this.password == '' || this.repPass == '') && !(this.disabledFirstGroup)
+    this.noMatchError = !(this.password == this.repPass)
+  }
+
+  disabledThirdGroup:boolean = true
+  thirdGroupCheck = () => {
+    this.disabledThirdGroup = new Date().getFullYear() - this.user.bornDate.getFullYear() <= 18 && !(this.disabledFirstGroup) && !(this.disabledSecondGroup)
+  }
+
+  checkPass()
+  {
+    this.password == this.repPass?
+      this.noMatchError=true :
+      this.noMatchError=false
   }
 
   sendUser() {

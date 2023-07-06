@@ -5,6 +5,7 @@ img{
     cursor: pointer;
     margin-bottom: 20px;
     transition: .2s;
+    background: url('../../assets/images/permission.svg');
   }
   
   img:hover {

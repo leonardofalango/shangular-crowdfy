@@ -29,4 +29,9 @@ export class UserService {
     {
         return this.http.post<Token>("http://localhost:5177/user/login", login)
     }
+
+    logout()
+    {
+        sessionStorage.setItem('jwtAuthenticator', 'out')
+    }
 }

@@ -58,3 +58,25 @@
 .btn-create-account:hover {
     background-color: var(--primary-colorh2);
 }
+
+.background-color {
+    background-color: var(--primary-colorh4);
+}
+
+.noMatchError {
+    color: rgb(134, 0, 0);
+    background-color: rgba(255, 0, 0, 0.3);
+    padding: 10px;
+}
+
+.next-button-disabled {
+    background-color: var(--primary-colorh3);
+}
+.next-button {
+    background-color: var(--primary-colorh2);
+    transition: all .3s;
+}
+.next-button:hover {
+    background-color: var(--primary-colorh1);
+    transform: scale(1.02);
+}
