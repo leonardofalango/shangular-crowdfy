@@ -10,4 +10,5 @@ export interface Post
     forumName : string
     title : string
     archive : string
+    liked : boolean
 }

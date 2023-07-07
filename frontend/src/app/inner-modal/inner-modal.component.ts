@@ -62,7 +62,8 @@ export class InnerModalComponent
       forumName: '',
       idPost: 0,
       photo: '',
-      archive: ''
+      archive: '',
+      liked: false
     }
 
 

@@ -1,1 +1,42 @@
-<p>search-page works!</p>
+<!-- create a page that contains all the forums in a angular list with informations -->
+<!-- the component must have header ./header.component and the forum will have the follow button with a call of follow() function -->
+
+<!-- Path: frontend\src\app\search-page\search-page.component.ts -->
+<!-- create a function that will call the backend to get all the forums and put them in a list -->
+<!-- create a function that will call the backend to follow a forum -->
+
+<app-header></app-header>
+<app-side-bar></app-side-bar>
+<div class="container-center">
+    <mat-card class="example-card card" *ngFor="let forum of forums">
+        <mat-card-header>
+          <mat-card-title>{{forum.title}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>
+                {{forum.description}}
+            </p>
+        </mat-card-content>
+        <mat-card-actions>
+            <div mat-button class="unfollow-button" *ngIf="!forum.selected">
+                <span class="material-symbols-outlined">
+                    heart_minus
+                </span>
+                <p>
+                    UNFOLLOW
+                </p>
+            </div>
+
+            <div mat-button class="follow-button" *ngIf="forum.selected">
+                <span class="material-symbols-outlined">
+                    heart_plus
+                </span>
+                <p>
+                    FOLLOW
+                </p>
+            </div>
+            <button mat-button disabled>Posts: 300</button>
+        </mat-card-actions>
+      </mat-card>
+      
+</div>

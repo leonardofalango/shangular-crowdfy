@@ -33,6 +33,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
 // ! Angular Material
 
 import { HttpClientModule } from '@angular/common/http';
@@ -87,7 +88,8 @@ import { SearchPageComponent } from './search-page/search-page.component';
     MatNativeDateModule,
     MatDatepickerModule,
     NgxSpinnerModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -163,5 +163,42 @@ public class PostService : IPostService
         return await postJoint.ToListAsync();
     }
 
+    public async Task<bool> Like(int idPost, int idUser, bool isLiked)
+    {
+        try {
+            var post = await this.context.Posts
+                .Where(p => p.Id == idPost)
+                .FirstOrDefaultAsync();
+            
+            if (post == null)
+                return false;
+
+            var userXlike = await this.context.UserXlikes
+                .Where(uxl => uxl.IdPost == idPost && uxl.IdUser == idUser)
+                .FirstOrDefaultAsync();
+            
+            if (userXlike == null)
+            {
+                var newUserXlike = new UserXlike
+                {
+                    IdUser = idUser,
+                    IdPost = idPost
+                };
+
+                this.context.UserXlikes.Add(newUserXlike);
+            }
+            else
+            {
+                this.context.UserXlikes.Remove(userXlike);
+            }
+
+            await this.context.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
 
 }

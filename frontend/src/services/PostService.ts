@@ -19,4 +19,13 @@ export class PostService {
     return this.http.post("http://localhost:5177/post/add", post);
   }
 
+  like(idPost: number, liked: boolean)
+  {
+    return this.http.post("http://localhost:5177/post/like", {
+      idUser: sessionStorage.getItem("userId"),
+      idPost: idPost,
+      liked: liked
+    });
+
+
 }

@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AthenticateService } from 'src/services/AthenticateService';
 import { Forum } from 'src/services/Forum';
 import { ForumService } from 'src/services/ForumService';
-import { User } from 'src/services/User';
 import { UserService } from 'src/services/UserService';
 
 @Component({
@@ -22,12 +21,38 @@ export class SearchPageComponent
     private router: Router
   ) { }
 
-  forums : Forum[] = []
+  forumDosLindoes : Forum = {
+    id: 1,
+    title: "Forum dos lindoes",
+    description: "Forum dos lindoes",
+    createdAt: new Date(),
+    photo: '',
+    selected: true
+  }
+
+  notFollowingForums : Forum = {
+    id: 2,
+    title: "Not following forums",
+    description: "Not following forums",
+    createdAt: new Date(),
+    photo: '',
+    selected: false
+  }
+
+  forums : Forum[] = [
+    this.forumDosLindoes,
+    this.notFollowingForums,
+    this.forumDosLindoes,
+    this.notFollowingForums
+  ]
   notFound : boolean = false;
+  searchText : string = ""
 
   ngOnInit(): void {
     this.loginService.authenticate(sessionStorage.getItem('jwtAuthenticator'))
 
+
+    // get the url params then search by forum name
     this.route.queryParams.subscribe(
       params => {
         console.log(params)
@@ -45,12 +70,13 @@ export class SearchPageComponent
           }
         })
       }
+
     )
 
-    // this.forumService.getForumByName().subscribe(
-    //   forumList => this.forums = forumList
-    // )
   }
-
+  
+  search = () => {
+    this.router.navigate(['/search'], {queryParams: {searchText: this.searchText}})
+  }
 
 }

@@ -61,4 +61,20 @@ public class PostsController : ControllerBase
         return posts;
     }
 
+    // route to handle like and unlike
+    [HttpPost("like")]
+    public async Task<ActionResult> Like(
+        [FromBody] Like like,
+        [FromServices] IRepository<Like> likeRepo,
+        [FromServices] IPostService postService
+    )
+    {
+        if (!await likeRepo.Create(like))
+            return StatusCode(503);
+        
+        await postService.Like(like.PostId, like.UserId, like.IsLiked);
+
+        return Ok();
+    }
+
 }

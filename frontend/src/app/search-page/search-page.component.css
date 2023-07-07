@@ -1,0 +1,48 @@
+.container-center  {
+    width: 100vw;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.card {
+    width: 40%;
+}
+
+.unfollow-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+    /* turn into a button */
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    padding: 0.5rem;
+    cursor: pointer;
+    height: 2rem;
+}
+
+.unfollow-button:hover {
+    background-color: #ccc;
+}
+
+.follow-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.1rem;
+    /* turn into a button */
+    border: 1px solid var(--primary-colorh2);
+    border-radius: 2px;
+    padding: 0.5rem;
+    cursor: pointer;
+    height: 2rem;
+    background-color: var(--primary-colorh3);
+}
+
+.follow-button:hover {
+    background-color: var(--primary-colorh1);
+}

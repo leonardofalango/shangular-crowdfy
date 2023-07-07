@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Post } from '../../services/Post'
 import { PostService } from 'src/services/PostService';
 import { UserService } from '../../services/UserService'
@@ -14,7 +14,26 @@ import { AthenticateService } from 'src/services/AthenticateService';
 export class MainComponent 
   implements OnInit{
 
-    posts: Post[] = [];
+    postTest: Post = {
+      title: 'Teste',
+      content: 'Teste',
+      authorName: '',
+      createdAt: new Date(),
+      crowds: 0,
+      comments: 0,
+      idPost: 0,
+      photo: '',
+      forumName: '',
+      archive: '',
+      liked: false
+    };
+
+
+    posts: Post[] = [
+      this.postTest,
+      this.postTest,
+    ];
+
     pageNumber: number = 0;
     userId: string | null = sessionStorage.getItem('userId');
     user: User = 
@@ -40,9 +59,9 @@ export class MainComponent
       console.log("enviando: ");
       console.log(sessionStorage.getItem('jwtAuthenticator'));
       
-      this.authenticator.authenticate(
-        sessionStorage.getItem('jwtAuthenticator')
-      )
+      // this.authenticator.authenticate(
+      //   sessionStorage.getItem('jwtAuthenticator')
+      // )
 
 
       this
@@ -72,5 +91,11 @@ export class MainComponent
     getFiltersString()
     {
       
+    }
+
+    like(post: Post) {
+      post.liked = !post.liked;
+      
+      this.service.like(post.idPost, post.liked)
     }
 }

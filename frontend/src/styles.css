@@ -7,6 +7,8 @@
 
 body {
     background-color: var(--primary-colorh4);
+    width: 100vw;
+    overflow-x: hidden;
 }
 
 :root {

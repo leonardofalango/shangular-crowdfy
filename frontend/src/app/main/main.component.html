@@ -41,11 +41,14 @@
             </p>
             
             <div class="card-buttons">
-                <span class="material-symbols-outlined">
+                <span class="material-symbols-outlined button-comment">
                     chat
                 </span>
  
-                <span class="material-icons">local_fire_department</span>
+                <span class="material-icons {{post.liked? 'button-crowd-active' : 'button-crowd'}}"
+                (click)="like(post)">
+                    local_fire_department
+                </span>
             </div>
         </div>
     </div>

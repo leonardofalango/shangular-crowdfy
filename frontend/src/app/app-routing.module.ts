@@ -19,11 +19,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { SearchPageComponent } from './search-page/search-page.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatCardModule } from '@angular/material/card';
 /* FROM ANGULAR MATERIAL */
-
-sessionStorage.setItem("userId", '1');
 
 const routes: Routes = [
   {path: "", component: MainComponent},
@@ -49,7 +47,8 @@ const routes: Routes = [
     MatNativeDateModule,
     MatDatepickerModule,
     NgxSpinnerModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatCardModule
   ],
   exports: [RouterModule]
 })
