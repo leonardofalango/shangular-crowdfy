@@ -28,7 +28,7 @@ public class UserService : IUserService
                 user.BornDate,
                 user.Mail,
                 user.IsAuth
-            )).ToListAsync();
+            ){ Id = user.Id }).ToListAsync();
 
     public async Task<UserDTO?> GetUserByLogin(LoginDTO log)
     {
@@ -66,7 +66,7 @@ public class UserService : IUserService
             u.BornDate,
             u.Mail,
             u.IsAuth
-        );
+        ){ Id = u.Id };
     }
 
     public Task<List<UserDTO>> GetPage(int page, int itemPerPage = 10)
@@ -81,7 +81,7 @@ public class UserService : IUserService
                     user.BornDate,
                     user.Mail,
                     user.IsAuth
-                )
+                ){ Id = user.Id}
             ).ToListAsync();
 
     public Task<User?> GetById(int id)

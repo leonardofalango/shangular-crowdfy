@@ -3,6 +3,7 @@ import { User } from '../../services/User'
 import { UserService } from '../../services/UserService'
 import { ForumService } from 'src/services/ForumService';
 import { Forum } from 'src/services/Forum';
+import { AthenticateService } from 'src/services/AthenticateService';
 
 @Component({
   selector: 'app-side-bar',
@@ -28,13 +29,22 @@ export class SideBarComponent
     auth: string = ''
 
     constructor(
-      private userService : UserService,
-      private forumService: ForumService
+      private authe : AthenticateService,
+      private forumService: ForumService,
+      private userService: UserService
     ) { }
 
     ngOnInit(): void {
+    
+      if (!sessionStorage.getItem("userId"))
+      {
+        location.reload();
+      }
+
       this.userService
-        .getUser(this.userId)
+        .getUser(
+          sessionStorage.getItem('userId')
+        )
         .subscribe(u => {
           this.user = u;
           console.log(u);
@@ -51,4 +61,5 @@ export class SideBarComponent
           x => this.forums = x
         )
     }
+    
 }

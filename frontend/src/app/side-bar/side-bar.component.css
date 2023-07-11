@@ -6,6 +6,7 @@
     height: 100vh;
     padding-top: 59px;
     padding-left: 10px;
+    z-index: -1;
 }
 
 .ut-hr-txt {

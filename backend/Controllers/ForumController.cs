@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using backend.Model.Services;
 using backend.Model.Interfaces;
-using Security_jwt;
 using backend.DataTransferObject;
 
 namespace backend.Controllers;
@@ -90,11 +89,12 @@ public class ForumController : ControllerBase
     [HttpGet("get/{id}")]
     public async Task<ActionResult<ForumDTO>> GetById(
         int id,
+        [FromBody] UserId user,
         [FromServices] IRepository<Forum> forumRepo,
         [FromServices] IForumService forumService
     )
     {
-        ForumDTO? f = await forumService.GetById(id);
+        ForumDTO? f = await forumService.GetById(id, user.IdUser);
         if (f == null)
             return StatusCode(404);
         
@@ -120,10 +120,15 @@ public class ForumController : ControllerBase
     [HttpGet("searchByName/{name}")]
     public async Task<ActionResult<List<ForumDTO>>> SearchByForum(
         string name,
+        [FromBody] UserId user,
         [FromServices] IForumService forumService
     )
     {
-        List<ForumDTO> forums = await forumService.GetByName(name);
+        System.Console.WriteLine(name);
+        System.Console.Write("userId: ");
+        System.Console.WriteLine(user.IdUser);
+
+        List<ForumDTO> forums = await forumService.GetByName(name, user.IdUser);
 
         if (forums.Count == 0)
         {
@@ -146,6 +151,24 @@ public class ForumController : ControllerBase
             return NotFound();
         }
         return Ok(subscribedForums);
+    }
+
+    public class Subscribe
+    {
+        public int IdForum { get; set; }
+        public int IdUser { get; set; }
+    }
+    [HttpPost("subscribe")]
+    public async Task<ActionResult> SubscribeToForum(
+        [FromBody] Subscribe subObj,
+        [FromServices] IForumService forumService
+    )
+    {
+        var res = await forumService.Subscribe(subObj.IdUser, subObj.IdForum);
+        
+        if (res)
+            return Ok();
+        return BadRequest();
     }
 
 }

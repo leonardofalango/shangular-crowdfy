@@ -13,6 +13,9 @@ import { FormsModule } from '@angular/forms'
 import { PostService } from 'src/services/PostService';
 import { UserService } from 'src/services/UserService';
 import { Router } from '@angular/router';
+import { AthenticateService } from 'src/services/AthenticateService';
+import { User } from 'src/services/User';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @Component({
@@ -28,7 +31,8 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     NgFor,
     AsyncPipe,
-    FormsModule]
+    FormsModule,
+    MatSelectModule]
 })
 export class InnerModalComponent 
   implements OnInit{
@@ -36,12 +40,15 @@ export class InnerModalComponent
     private service: ForumService,
     private postService: PostService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private auth: AthenticateService
     ) {  }
 
 
   myControl = new FormControl<string | Forum>('');
   options: Forum[] = [];
+
+  option: string = '';
   
 
   filteredOptions!: Observable<Forum[]>;
@@ -49,7 +56,15 @@ export class InnerModalComponent
   //! USER ID
   userId: string = '1';
 
-  selectOption: string | null = null;
+  selectOption: Forum =
+  {
+    id: 0,
+    createdAt: new Date(),
+    title: '',
+    description: '',
+    photo: '',
+    selected: false
+  }
 
   post: Post =
     {
@@ -98,6 +113,25 @@ export class InnerModalComponent
   }
 
   pub(): void {
+    const user: User =
+    {
+      id: 0,
+      completeName: '',
+      username: '',
+      photo: '',
+      bornDate: new Date(),
+      mail: '',
+      isAuth: 0
+    }
+
+    this.auth.authenticate(
+      sessionStorage.getItem('jwtAuthenticator')
+    )
+    this.post.authorName = this.auth.user.username
+
+    this.post.forumName = this.option
+ 
+
     console.log(
       this.post
     )

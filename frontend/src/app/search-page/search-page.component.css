@@ -46,3 +46,10 @@
 .follow-button:hover {
     background-color: var(--primary-colorh1);
 }
+
+.not-found {
+    position: relative;
+    width: 40%;
+    margin: auto;
+    text-align: center;
+}

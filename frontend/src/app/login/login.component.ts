@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Login } from 'src/services/Login';
 import { Token } from 'src/services/Token';
@@ -10,12 +10,16 @@ import { UserService } from 'src/services/UserService';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent
+  implements OnInit {
 
   constructor(
     private service: UserService,
     private route: Router
     ) { }
+  ngOnInit(): void {
+    sessionStorage.clear()
+  }
 
   hide : boolean = true
 

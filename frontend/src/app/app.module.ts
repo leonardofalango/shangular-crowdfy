@@ -89,7 +89,8 @@ import { SearchPageComponent } from './search-page/search-page.component';
     MatDatepickerModule,
     NgxSpinnerModule,
     MatSlideToggleModule,
-    MatCardModule
+    MatCardModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

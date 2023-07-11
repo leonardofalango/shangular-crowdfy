@@ -69,6 +69,8 @@ public class UserController : ControllerBase
 
         string jwt = jwtService.GetToken<UserDTO>(user);
 
+        System.Console.WriteLine(user.Id);
+
         if (jwt == "")
             return StatusCode(401);
         
@@ -81,5 +83,10 @@ public class UserController : ControllerBase
     public async Task<ActionResult<UserDTO>> ValidateTokenReturnUser(
         [FromBody] Jwt token,
         [FromServices] IJwtService jwt
-    ) => Ok(jwt.Validate<UserDTO>(token.Token));
+    )
+    {
+        UserDTO user = jwt.Validate<UserDTO>(token.Token);
+
+        return Ok(jwt.Validate<UserDTO>(token.Token));
+    }
 }

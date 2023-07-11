@@ -117,7 +117,14 @@
 .button-crowd:hover {
     color: #d3338370;
 }
+
 .button-crowd-animation {
+    animation-name: liked;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+
     -webkit-animation-name: liked;
     -webkit-animation-duration: 1s;
     -webkit-animation-iteration-count: 1;
@@ -133,6 +140,20 @@
 
 .button-crowd-active:hover {
     color: rgba(255, 255, 255, .4);
+}
+
+.more-content {
+    padding: 15px;
+    border-radius: 10px;
+    transition: all .3s;
+    cursor: pointer;
+    user-select: none;
+}
+.more-content:hover {
+    background-color: var(--primary-colorh1);
+}
+.more-content:active {
+    background-color: var(--primary-colorh2);
 }
 
 @keyframes liked {

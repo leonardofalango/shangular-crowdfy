@@ -14,24 +14,7 @@ import { AthenticateService } from 'src/services/AthenticateService';
 export class MainComponent 
   implements OnInit{
 
-    postTest: Post = {
-      title: 'Teste',
-      content: 'Teste',
-      authorName: '',
-      createdAt: new Date(),
-      crowds: 0,
-      comments: 0,
-      idPost: 0,
-      photo: '',
-      forumName: '',
-      archive: '',
-      liked: false
-    };
-
-
     posts: Post[] = [
-      this.postTest,
-      this.postTest,
     ];
 
     pageNumber: number = 0;
@@ -56,12 +39,9 @@ export class MainComponent
       private authenticator: AthenticateService) { }
 
     ngOnInit(): void {
-      console.log("enviando: ");
-      console.log(sessionStorage.getItem('jwtAuthenticator'));
-      
-      // this.authenticator.authenticate(
-      //   sessionStorage.getItem('jwtAuthenticator')
-      // )
+      this.authenticator.authenticate(
+        sessionStorage.getItem('jwtAuthenticator')
+      )
 
 
       this
@@ -72,30 +52,35 @@ export class MainComponent
         x => this.user = x
       )
 
-      //this.filters = this.getFiltersString();
+      this.filters = this.getFiltersString();
       
-      this.update(this.filters, this.pageNumber);
+      this.update();
     }
 
-    update(filters: string, page: number)
+    update()
     {
-      this.service.getPage(filters, page)
+      this.service.getPage(this.pageNumber)
         .subscribe(x => 
           x.forEach(e => this.posts.push(e))
         )
       console.log(this.posts)
-      
-      this.pageNumber += 1;
     }
 
-    getFiltersString()
+    getFiltersString() : string
     {
-      
+
+      return ''
     }
 
     like(post: Post) {
       post.liked = !post.liked;
       
       this.service.like(post.idPost, post.liked)
+    }
+
+    moreContent = () => {
+      this.pageNumber += 1;
+      console.log(this.pageNumber)
+      this.service.getPage(this.pageNumber)
     }
 }

@@ -48,7 +48,8 @@ const routes: Routes = [
     MatDatepickerModule,
     NgxSpinnerModule,
     MatSlideToggleModule,
-    MatCardModule
+    MatCardModule,
+    MatSelectModule
   ],
   exports: [RouterModule]
 })

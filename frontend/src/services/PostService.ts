@@ -9,9 +9,9 @@ export class PostService {
 
   constructor(private http: HttpClient) { }
 
-  getPage(filters: string, page: number)
+  getPage(page: number)
   {
-    return this.http.get<Post[]>("http://localhost:5177/post/" + filters + '-' + page);
+    return this.http.get<Post[]>("http://localhost:5177/post/" + page);
   }
 
   postPost(post: Post)
@@ -27,5 +27,5 @@ export class PostService {
       liked: liked
     });
 
-
+  }
 }

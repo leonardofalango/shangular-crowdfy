@@ -39,21 +39,15 @@ public class PostsController : ControllerBase
         return post!;
     }
     
-    [HttpGet("{filters}+{page}")]
+    [HttpGet("{page}")]
     public async Task<ActionResult<IEnumerable<PostDTO>>> GetPage(
-        string filters,
         int page,
         [FromServices] IRepository<Post> postRepo,
         [FromServices] IPostService postService
     )
     {
-        int[] filterArr = filters
-            .Split(",")
-            .Select(
-                filter => int.Parse(filter)
-            ).ToArray();
 
-        List<PostDTO> posts = await postService.GetPageWithCrowdsFilter(filterArr, page);
+        List<PostDTO> posts = await postService.GetPageWithCrowds(page, 10);
 
         if (posts.Count() == 0)
             return StatusCode(404);

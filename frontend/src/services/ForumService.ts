@@ -18,7 +18,14 @@ export class ForumService {
   getAll = () => this.http.get<Forum[]>("http://localhost:5177/forum/")
   
   //! ?????
-  getForumByName = (name: string | null) => this.http.get<Forum[]>("http://localhost:5177/forum/getByName/" + name)
+  getForumByName = (name: string | null, userId : string | null) => this.http.post<Forum[]>("http://localhost:5177/forum/getByName/" + name, {
+    id: userId
+  })
+
+  follow = (idForum: string, idUser: string | null) => this.http.post("https://localhost:5177/forum/subscribe", {
+    idForum : idForum,
+    idUser : idUser
+  })
   
 
   addForum = (forum: Forum) => this.http.post("https://localhost:5177/forum/add", forum)

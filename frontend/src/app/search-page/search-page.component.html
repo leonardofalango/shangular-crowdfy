@@ -8,6 +8,12 @@
 <app-header></app-header>
 <app-side-bar></app-side-bar>
 <div class="container-center">
+    
+    <div class="not-found" *ngIf="notFound">
+        <p>
+            Not found, recommended forums
+        </p>
+    </div>
     <mat-card class="example-card card" *ngFor="let forum of forums">
         <mat-card-header>
           <mat-card-title>{{forum.title}}</mat-card-title>
@@ -18,7 +24,7 @@
             </p>
         </mat-card-content>
         <mat-card-actions>
-            <div mat-button class="unfollow-button" *ngIf="!forum.selected">
+            <div mat-button class="unfollow-button" *ngIf="forum.selected" (click)="follow(forum.id)">
                 <span class="material-symbols-outlined">
                     heart_minus
                 </span>
@@ -27,7 +33,7 @@
                 </p>
             </div>
 
-            <div mat-button class="follow-button" *ngIf="forum.selected">
+            <div mat-button class="follow-button" *ngIf="!forum.selected" (click)="follow(forum.id)">
                 <span class="material-symbols-outlined">
                     heart_plus
                 </span>

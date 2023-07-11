@@ -14,19 +14,30 @@
   </mat-form-field>
 
   <!-- !FORUM -->
-  <mat-form-field class="half-width">
-    <mat-label>Fórum</mat-label>
-
-    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-      <mat-option [(ngModel)]="selectOption"
-        *ngFor="let option of filteredOptions | async"
-        [value]="option">
-          {{option.title}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+  <div class="d-flex">
+    <mat-form-field class="half-width">
+      <mat-label>Fórum</mat-label>
+  
+      <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+  
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option [(ngModel)]="selectOption"
+          *ngFor="let option of filteredOptions | async"
+          [value]="option">
+            {{option.title}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    
+    <mat-form-field>
+      <mat-label>Forum</mat-label>
+      <mat-select>
+        <mat-option *ngFor="let opt of options" value="opt.id">
+          {{opt.title}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
 </div>
 <div mat-dialog-actions class="modal-buttons">

@@ -20,30 +20,7 @@ export class SearchPageComponent
     private route: ActivatedRoute,
     private router: Router
   ) { }
-
-  forumDosLindoes : Forum = {
-    id: 1,
-    title: "Forum dos lindoes",
-    description: "Forum dos lindoes",
-    createdAt: new Date(),
-    photo: '',
-    selected: true
-  }
-
-  notFollowingForums : Forum = {
-    id: 2,
-    title: "Not following forums",
-    description: "Not following forums",
-    createdAt: new Date(),
-    photo: '',
-    selected: false
-  }
-
   forums : Forum[] = [
-    this.forumDosLindoes,
-    this.notFollowingForums,
-    this.forumDosLindoes,
-    this.notFollowingForums
   ]
   notFound : boolean = false;
   searchText : string = ""
@@ -53,11 +30,11 @@ export class SearchPageComponent
 
 
     // get the url params then search by forum name
-    this.route.queryParams.subscribe(
+    this.route.params.subscribe(
       params => {
-        console.log(params)
         this.forumService.getForumByName(
-          params['searchText']
+          params['searchText'],
+          sessionStorage.getItem('userId')
         ).subscribe({
           next: (res: Forum[]) => {
             this.forums = res;
@@ -77,6 +54,19 @@ export class SearchPageComponent
   
   search = () => {
     this.router.navigate(['/search'], {queryParams: {searchText: this.searchText}})
+  }
+
+  follow = (idForum : number) => {
+
+    console.log("id: ")
+    console.log(idForum)
+    console.log("se inscrevendo")
+    
+    this.forumService.follow(
+      idForum.toString(),
+      sessionStorage.getItem('userId')
+    ).subscribe(res =>
+      console.log(res));
   }
 
 }

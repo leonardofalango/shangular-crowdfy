@@ -92,6 +92,8 @@ public class PostService : IPostService
 
     public async Task<List<PostDTO>> GetPageWithCrowds(int page, int itemPerPage = 10)
     {
+        System.Console.WriteLine("getpageswithcrowds");
+
         var postJoint =
             from like in this.context.UserXlikes
             group like by like.IdPost
@@ -120,6 +122,11 @@ public class PostService : IPostService
                 likesgroup.Likes,
                 forum.Title
             );
+
+        System.Console.WriteLine("join?");
+        var print = await postJoint.ToListAsync();
+        foreach (var item in print)
+            System.Console.WriteLine(item);            
 
         return await postJoint
             .Skip(page * itemPerPage)
